@@ -37,6 +37,14 @@ CASES = {
         'status_bar': True,  # screens were exported without a status bar
         'screens': ['home.png', 'producto.png', 'carrito.jpg', 'pago.jpg', 'blog.jpg'],
     },
+    'centro-medico': {
+        'device': 'phone',
+        'color': (3, 217, 202),  # Centro Médico teal, from the logo
+        'pad': True,  # wireframes are 360x640: fill the taller phone with the screen's background instead of cropping
+        # The high-fidelity login appears twice so the brand colour shows among the wireframes
+        'screens': ['login.png', 'wf-inicio.png', 'wf-cita-opciones.png', 'wf-confirmacion.png', 'login.png',
+                    'wf-cita-lista.png', 'wf-agendando.png', 'wf-cita.png'],
+    },
     'kuara': {
         'device': 'tablet',
         'color': (106, 44, 143),  # Purple KUARA/01
@@ -50,8 +58,14 @@ PHONE_W, TABLET_W = 560, 1150
 PHONE_RATIO = 812 / 375
 
 
-def load(case, name, device, status_bar=False):
+def load(case, name, device, status_bar=False, pad=False):
     img = Image.open(os.path.join(ROOT, case, 'screens', name)).convert('RGB')
+    if pad and img.height < img.width * PHONE_RATIO * 0.95:
+        h = round(img.width * PHONE_RATIO)
+        bottom = img.crop((0, img.height - 4, img.width, img.height - 3)).resize((1, 1)).getpixel((0, 0))
+        tall = Image.new('RGB', (img.width, h), bottom)
+        tall.paste(img, (0, 0))
+        img = tall
     if status_bar:
         # Room for the dynamic island, in the colour of the screen's top edge
         pad = round(img.width * 0.12)
@@ -113,7 +127,8 @@ def compose(case, size=(4600, 4600), angle=-30):
 
     make = phone if cfg['device'] == 'phone' else tablet
     width = PHONE_W if cfg['device'] == 'phone' else TABLET_W
-    devices = [make(load(case, name, cfg['device'], cfg.get('status_bar', False)), width) for name in cfg['screens']]
+    devices = [make(load(case, name, cfg['device'], cfg.get('status_bar', False), cfg.get('pad', False)), width)
+               for name in cfg['screens']]
     dw, dh = devices[0].size
     gap = 80 if cfg['device'] == 'phone' else 110
     step_y = dh + gap if cfg['device'] == 'phone' else round(dw * 0.66) + gap

@@ -10,9 +10,10 @@ import portfolioPinsxp from '../assets/projects/pinsxp/portrait.jpg';
 import portfolioIn99 from '../assets/projects/in99/portrait.jpg';
 import portfolioMercantil from '../assets/projects/mercantil/portrait.jpg';
 import portfolioCrudebeauty from '../assets/projects/crudebeauty/portrait.jpg';
-import portfolioCentroMedico from '../assets/projects/portfolio/centro-medico-is.jpg';
 import portfolioNuva from '../assets/projects/portfolio/nuva.jpg';
 import homeKuara from '../assets/projects/kuara/cover.jpg';
+import homeCentroMedico from '../assets/projects/centro-medico/cover.jpg';
+import portfolioCentroMedico from '../assets/projects/centro-medico/portrait.jpg';
 import portfolioKuara from '../assets/projects/kuara/portrait.jpg';
 
 // Language-independent facts. Titles, descriptions and labels live in src/i18n/ui.ts.
@@ -117,9 +118,20 @@ export const projects: Project[] = [
     cover: homeIn99,
     portrait: portfolioIn99,
   },
+  {
+    slug: 'centro-medico',
+    name: 'Centro Médico IS',
+    category: { es: 'App de salud', en: 'Health app' },
+    summary: {
+      es: 'App de citas médicas y control sanitario para un centro médico en Madrid, de la investigación a los wireframes.',
+      en: 'Medical appointments and health tracking app for a medical centre in Madrid, from research to wireframes.',
+    },
+    cover: homeCentroMedico,
+    portrait: portfolioCentroMedico,
+    status: 'project.status.building',
+  },
 ];
 
 export const upcomingProjects: UpcomingProject[] = [
-  { name: 'Centro Médico IS', status: 'project.status.building', portrait: portfolioCentroMedico, focus: '26% center' },
   { name: 'Nuva', status: 'project.status.building', portrait: portfolioNuva, focus: '40% center' },
 ];

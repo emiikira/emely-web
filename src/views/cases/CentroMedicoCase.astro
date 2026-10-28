@@ -1,0 +1,350 @@
+---
+import { Image } from 'astro:assets';
+import CaseStudy from '../../layouts/CaseStudy.astro';
+import CaseSection from '../../components/CaseSection.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import PhoneMockup from '../../components/PhoneMockup.astro';
+import content from '../../i18n/cases/centro-medico';
+import { getLang } from '../../i18n';
+import { media } from '../../i18n/media';
+
+// Shared markup of the case study; the text comes from src/i18n/cases/centro-medico.ts.
+// Images are exported from Emely's Figma file "Centro Médico".
+const lang = getLang(Astro.currentLocale);
+const c = content[lang];
+
+const cover = media('centro-medico/cover.jpg', lang);
+const userFlow = media('centro-medico/user-flow.png', lang);
+const login = media('centro-medico/screens/login.png', lang);
+const wireframes = c.design.wireframes.map((item) => ({ ...item, image: media(`centro-medico/screens/${item.file}.png`, lang) }));
+
+const sections = [
+  { id: 'reto', title: c.sections.challenge },
+  { id: 'investigacion', title: c.sections.research },
+  { id: 'insight', title: c.sections.insight },
+  { id: 'personas', title: c.sections.personas },
+  { id: 'flujo', title: c.sections.flow },
+  { id: 'diseno', title: c.sections.design },
+  { id: 'proximos-pasos', title: c.sections.next },
+];
+---
+
+<CaseStudy
+  slug="centro-medico"
+  name="Centro Médico IS"
+  tagline={c.tagline}
+  cover={cover}
+  description={c.description}
+  brief={c.brief}
+  details={c.details}
+  sections={sections}
+  note={c.note}
+>
+  <CaseSection id="reto" number={1} title={c.sections.challenge}>
+    <p class="callout">{c.challenge.callout}</p>
+    <p set:html={c.challenge.text} />
+    <h3>{c.challenge.goalsTitle}</h3>
+    <ul class="list">
+      {c.challenge.goals.map((goal) => <li>{goal}</li>)}
+    </ul>
+  </CaseSection>
+
+  <CaseSection id="investigacion" number={2} title={c.sections.research}>
+    <p set:html={c.research.text} />
+    <ul class="cards">
+      {
+        c.research.groups.map((group) => (
+          <li class="card">
+            <h4>{group.title}</h4>
+            <ul class="questions">
+              {group.questions.map((question) => <li>{question}</li>)}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3>{c.research.observationsTitle}</h3>
+    <ul class="quotes">
+      {c.research.observations.map((quote) => <li>{quote}</li>)}
+    </ul>
+
+    <h3>{c.research.benchmarkTitle}</h3>
+    <p>{c.research.benchmarkText}</p>
+  </CaseSection>
+
+  <CaseSection id="insight" number={3} title={c.sections.insight}>
+    <p class="callout">{c.insight.callout}</p>
+    <p>{c.insight.text}</p>
+    <h3>{c.insight.solutionTitle}</h3>
+    <p>{c.insight.solution}</p>
+  </CaseSection>
+
+  <CaseSection id="personas" number={4} title={c.sections.personas}>
+    <p>{c.personas.text}</p>
+    <div class="people">
+      {
+        c.personas.people.map((person) => (
+          <article class="person">
+            <header class="person__head">
+              <span class="person__initials" aria-hidden="true">
+                {person.name
+                  .split(' ')
+                  .map((part) => part[0])
+                  .join('')}
+              </span>
+              <h4>{person.name}</h4>
+            </header>
+            <dl class="facts">
+              {person.facts.map((fact) => (
+                <>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </>
+              ))}
+            </dl>
+            <p class="person__context">{person.context}</p>
+            <div class="person__row">
+              <h5>{c.personas.labels.goals}</h5>
+              <p>{person.goals}</p>
+            </div>
+            <div class="person__row person__row--pain">
+              <h5>{c.personas.labels.frustrations}</h5>
+              <p>{person.frustrations}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </CaseSection>
+
+  <CaseSection id="flujo" number={5} title={c.sections.flow}>
+    <p>{c.flow.text}</p>
+    <ProcessSteps steps={c.flow.steps} label={c.sections.flow} />
+    <figure class="flow">
+      <Image src={userFlow} alt={c.flow.alt} widths={[880, 1720]} sizes="(max-width: 1024px) 92vw, 880px" />
+    </figure>
+  </CaseSection>
+
+  <CaseSection id="diseno" number={6} title={c.sections.design}>
+    <p>{c.design.text}</p>
+    <h3>{c.design.wireframesTitle}</h3>
+    <ul class="wires">
+      {
+        wireframes.map((item) => (
+          <li>
+            <Image src={item.image} alt="" widths={[200, 360]} sizes="(max-width: 760px) 44vw, 200px" />
+            <span>{item.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3>{c.design.visualTitle}</h3>
+    <div class="visual">
+      <p>{c.design.visualText}</p>
+      <PhoneMockup screen={login} alt={c.design.loginAlt} class="visual__phone" />
+    </div>
+  </CaseSection>
+
+  <CaseSection id="proximos-pasos" number={7} title={c.sections.next}>
+    <p>{c.next.text}</p>
+    <ul class="cards">
+      {
+        c.next.cards.map((card) => (
+          <li class="card">
+            <h4>{card.title}</h4>
+            <Fragment set:html={card.text} />
+          </li>
+        ))
+      }
+    </ul>
+  </CaseSection>
+</CaseStudy>
+
+<style>
+  /* Interview questions inside the research cards */
+  .questions {
+    display: grid;
+    gap: 8px;
+    margin-top: 4px;
+    padding-left: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .questions li::marker {
+    color: var(--fuchsia);
+  }
+
+  /* Verbatim quotes from the interviews */
+  .quotes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .quotes li {
+    padding: 20px 22px;
+    border-left: 3px solid var(--fuchsia);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    background: var(--purple-06);
+    color: var(--ink);
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* User personas, drawn in HTML */
+  .people {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .person {
+    display: grid;
+    align-content: start;
+    gap: 16px;
+    padding: clamp(20px, 3vw, 28px);
+    border: 1px solid var(--panel-line);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--panel-shadow);
+  }
+
+  .person__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .person__initials {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--brand-gradient);
+    color: var(--white);
+    font-size: 17px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .person h4 {
+    color: var(--purple);
+    font-size: 20px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .person__context {
+    font-size: 15px;
+  }
+
+  .person__row {
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--purple-06);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .person__row--pain {
+    background: var(--fuchsia-12);
+  }
+
+  .person h5 {
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .flow {
+    padding: clamp(12px, 2vw, 20px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+  }
+
+  /* Wireframes: four phone-sized screens with their label */
+  .wires {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .wires li {
+    display: grid;
+    gap: 10px;
+    justify-items: center;
+  }
+
+  .wires :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--panel-shadow);
+  }
+
+  .wires span {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: var(--fw-medium);
+    text-align: center;
+  }
+
+  /* Visual identity: text next to the high-fidelity screen, on the centre's teal */
+  .visual {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 240px);
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+    padding: clamp(24px, 4vw, 40px);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, #03d9ca 0%, #02a99d 100%);
+    color: var(--white);
+  }
+
+  .visual p {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .visual :global(.visual__phone) {
+    justify-self: center;
+    max-width: 220px;
+  }
+
+  @media (max-width: 760px) {
+    /* The flow stays readable: it keeps a minimum width and scrolls sideways */
+    .flow {
+      overflow-x: auto;
+    }
+
+    .flow :global(img) {
+      min-width: 720px;
+    }
+
+    .quotes,
+    .people {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .wires {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .visual {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
