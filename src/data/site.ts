@@ -123,6 +123,7 @@ export const projects: Project[] = [
     },
     cover: homeCrudebeauty,
     portrait: portfolioCrudebeauty,
+    featured: false,
   },
   {
     slug: 'in99',
@@ -134,6 +135,7 @@ export const projects: Project[] = [
     },
     cover: homeIn99,
     portrait: portfolioIn99,
+    featured: false,
   },
   {
     slug: 'centro-medico',
@@ -146,6 +148,7 @@ export const projects: Project[] = [
     cover: homeCentroMedico,
     portrait: portfolioCentroMedico,
     status: 'project.status.pitch',
+    featured: false,
   },
 ];
 
