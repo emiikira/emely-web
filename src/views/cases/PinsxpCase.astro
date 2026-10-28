@@ -5,6 +5,7 @@ import CaseSection from '../../components/CaseSection.astro';
 import content from '../../i18n/cases/pinsxp';
 import { getLang } from '../../i18n';
 import { media } from '../../i18n/media';
+import { counts, primitive, primitiveGroupSize, ramp, semantic } from '../../data/compass';
 
 // Shared markup of the case study; the text comes from src/i18n/cases/pinsxp.ts.
 const lang = getLang(Astro.currentLocale);
@@ -17,96 +18,36 @@ const reto3 = media('pinsxp/reto-3.png', lang);
 const compass1 = media('pinsxp/compass-1.png', lang);
 const compass2 = media('pinsxp/compass-2.png', lang);
 
-// Excerpt of the Compass token architecture, shown with the portfolio's own palette (global.css):
-// purple, fuchsia, their opacity variations and the neutrals. Token names stay in English in both languages.
-const color: Record<string, string> = {
-  'brand/purple': 'var(--purple)',
-  'brand/purple-06': 'var(--purple-06)',
-  'brand/purple-12': 'var(--purple-12)',
-  'brand/purple-24': 'var(--purple-24)',
-  'brand/fuchsia': 'var(--fuchsia)',
-  'brand/fuchsia-12': 'var(--fuchsia-12)',
-  'neutral/white': 'var(--white)',
-  'neutral/surface': 'var(--surface)',
-  'neutral/line': 'var(--line)',
-  'neutral/muted': 'var(--muted)',
-  'neutral/text': 'var(--text)',
-  'neutral/ink': 'var(--ink)',
-  'base/overlay': 'rgb(22 22 22 / 0.8)',
-};
+// Excerpt of Compass, the PinsXP design system. Names and values are read from the Figma export in
+// src/data/compass/, so the panel always shows the real tokens. Token names stay in English in both languages.
+const primitiveBase = ['white', 'black', 'transparent', 'overlay'].map((name) => ({ name, swatch: primitive(`base/${name}`) }));
 
-const primitiveBase = [
-  { name: 'white', hex: 'FFFFFF', swatch: 'var(--white)' },
-  { name: 'ink', hex: '161616', swatch: 'var(--ink)' },
-  { name: 'transparent', hex: 'FFFFFF', swatch: 'rgb(255 255 255 / 0.2)', opacity: 20 },
-  { name: 'overlay', hex: '161616', swatch: 'rgb(22 22 22 / 0.8)', opacity: 80 },
-];
+const ramps = ['dark cyan lime green', 'gray blue'].map((group) => ({ group, steps: ramp(group) }));
 
-// [label, CSS value, hex for screen readers and the tooltip]
-const ramps = [
-  {
-    group: 'brand',
-    steps: [
-      ['purple-06', 'var(--purple-06)', '6600BF · 6%'],
-      ['purple-12', 'var(--purple-12)', '6600BF · 12%'],
-      ['purple-24', 'var(--purple-24)', '6600BF · 24%'],
-      ['purple', 'var(--purple)', '6600BF'],
-      ['fuchsia-12', 'var(--fuchsia-12)', 'C9009D · 12%'],
-      ['fuchsia', 'var(--fuchsia)', 'C9009D'],
-    ],
-  },
-  {
-    group: 'neutral',
-    steps: [
-      ['white', 'var(--white)', 'FFFFFF'],
-      ['surface', 'var(--surface)', 'F5F5F5'],
-      ['line', 'var(--line)', 'E4E4E4'],
-      ['muted', 'var(--muted)', '6B6B6B'],
-      ['text', 'var(--text)', '474747'],
-      ['ink', 'var(--ink)', '161616'],
-    ],
-  },
-];
-
-const primitiveGroups = [
-  ['spacing', 35], ['width', 33], ['radius', 10], ['opacity', 21], ['blur', 8], ['font', 38],
-] as const;
+const primitiveGroups = ['spacing', 'width', 'radius', 'opacity', 'blur', 'font'].map((name) => ({
+  name,
+  size: primitiveGroupSize(name),
+}));
 
 const semanticGroups = [
-  {
-    path: ['colors', 'brand'],
-    rows: [
-      ['primary', 'brand/purple', 'brand/purple'],
-      ['secondary', 'brand/fuchsia', 'brand/fuchsia'],
-      ['tertiary', 'brand/purple-24', 'brand/purple-24'],
-    ],
-  },
-  {
-    path: ['colors', 'background'],
-    rows: [
-      ['primary', 'neutral/white', 'neutral/ink'],
-      ['secondary', 'brand/purple-06', 'brand/purple-12'],
-      ['input', 'neutral/white', 'neutral/ink'],
-      ['overlay', 'base/overlay', 'base/overlay'],
-    ],
-  },
-  {
-    path: ['colors', 'border'],
-    rows: [
-      ['primary', 'neutral/line', 'brand/purple-24'],
-      ['focus', 'brand/fuchsia', 'brand/fuchsia'],
-    ],
-  },
-  {
-    path: ['colors', 'text'],
-    rows: [
-      ['primary', 'neutral/ink', 'neutral/white'],
-      ['secondary', 'brand/purple', 'brand/fuchsia'],
-      ['body', 'neutral/text', 'neutral/line'],
-      ['placeholder', 'neutral/muted', 'neutral/muted'],
-    ],
-  },
-];
+  { path: ['colors', 'brand'], rows: ['primary', 'secondary', 'tertiary'] },
+  { path: ['colors', 'background'], rows: ['primary', 'secondary', 'tertiary', 'input', 'overlay'] },
+  { path: ['colors / background', 'status'], rows: ['error', 'success', 'info'] },
+  { path: ['colors', 'text'], rows: ['primary', 'secondary', 'body', 'placeholder'] },
+  { path: ['colors', 'border'], rows: ['default', 'separator'] },
+].map((group) => ({
+  ...group,
+  rows: group.rows.map((name) => {
+    const tokenPath = `${group.path.join(' / ').replaceAll(' / ', '/')}/${name}`;
+    return { name, ...semantic(tokenPath) };
+  }),
+}));
+
+// "dark cyan lime green/600" → ["dark cyan lime green/", "600"]
+const splitAlias = (alias = '') => {
+  const cut = alias.lastIndexOf('/') + 1;
+  return [alias.slice(0, cut), alias.slice(cut)];
+};
 const panel = c.impact.panel;
 
 const sections = [
@@ -199,14 +140,14 @@ const sections = [
           <header class="tokens__card-head">
             <h4 id="tokens-primitives">{panel.primitives.term}</h4>
             <span class="tokens__collection" translate="no">primitives</span>
-            <span class="tokens__count">299 {panel.labels.variables}</span>
+            <span class="tokens__count">{counts.primitives} {panel.labels.variables}</span>
           </header>
           <p class="tokens__text">{panel.primitives.text}</p>
 
           <div class="tokens__block">
-            <p class="tokens__path" translate="no">colors / <b>base</b></p>
+            <p class="tokens__path" translate="no">primary colors / <b>base</b></p>
             <table class="tokens__table">
-              <caption class="visually-hidden">{panel.labels.excerpt}: colors / base</caption>
+              <caption class="visually-hidden">{panel.labels.excerpt}: primary colors / base</caption>
               <thead>
                 <tr><th scope="col">{panel.labels.name}</th><th scope="col">{panel.labels.value}</th></tr>
               </thead>
@@ -217,11 +158,11 @@ const sections = [
                       <th scope="row">{token.name}</th>
                       <td>
                         <span class="tokens__value">
-                          <span class="tokens__swatch" style={`--swatch: ${token.swatch}`} aria-hidden="true" />
-                          #{token.hex}
-                          {token.opacity && (
+                          <span class="tokens__swatch" style={`--swatch: ${token.swatch.css}`} aria-hidden="true" />
+                          #{token.swatch.hex}
+                          {token.swatch.opacity < 100 && (
                             <span class="tokens__opacity">
-                              {token.opacity}%<span class="visually-hidden"> {panel.labels.opacity}</span>
+                              {token.swatch.opacity}%<span class="visually-hidden"> {panel.labels.opacity}</span>
                             </span>
                           )}
                         </span>
@@ -237,14 +178,14 @@ const sections = [
             ramps.map((ramp) => (
               <div class="tokens__block">
                 <p class="tokens__path" translate="no">
-                  colors / <b>{ramp.group}</b>
+                  primary colors / <b>{ramp.group}</b>
                 </p>
-                <ol class="tokens__ramp" aria-label={`colors / ${ramp.group}`} translate="no">
-                  {ramp.steps.map(([label, value, hex]) => (
-                    <li title={`${ramp.group}/${label} · #${hex}`}>
-                      <span class="tokens__ramp-chip" style={`--swatch: ${value}`} aria-hidden="true" />
-                      <span class="tokens__ramp-step">{label}</span>
-                      <span class="visually-hidden">#{hex}</span>
+                <ol class="tokens__ramp" aria-label={`primary colors / ${ramp.group} · ${panel.labels.scale}`} translate="no">
+                  {ramp.steps.map(({ step, swatch }) => (
+                    <li title={`${ramp.group}/${step} · #${swatch.hex}`}>
+                      <span class="tokens__ramp-chip" style={`--swatch: ${swatch.css}`} aria-hidden="true" />
+                      <span class="tokens__ramp-step">{step}</span>
+                      <span class="visually-hidden">#{swatch.hex}</span>
                     </li>
                   ))}
                 </ol>
@@ -255,7 +196,7 @@ const sections = [
           <div class="tokens__block">
             <p class="tokens__path">{panel.labels.groups}</p>
             <ul class="tokens__groups" translate="no">
-              {primitiveGroups.map(([name, count]) => <li>{name} <span>{count}</span></li>)}
+              {primitiveGroups.map(({ name, size }) => <li>{name} <span>{size}</span></li>)}
             </ul>
           </div>
         </section>
@@ -264,7 +205,7 @@ const sections = [
           <header class="tokens__card-head">
             <h4 id="tokens-semantics">{panel.semantics.term}</h4>
             <span class="tokens__collection" translate="no">semantics</span>
-            <span class="tokens__count">162 {panel.labels.variables}</span>
+            <span class="tokens__count">{counts.semantics} {panel.labels.variables}</span>
           </header>
           <p class="tokens__text">{panel.semantics.text}</p>
 
@@ -286,21 +227,21 @@ const sections = [
                         {group.path[0]} / <b>{group.path[1]}</b>
                       </th>
                     </tr>
-                    {group.rows.map(([name, light, dark]) => (
+                    {group.rows.map((row) => (
                       <tr>
-                        <th scope="row">{name}</th>
-                        <td>
-                          <span class="tokens__value">
-                            <span class="tokens__swatch" style={`--swatch: ${color[light]}`} aria-hidden="true" />
-                            <span><span class="tokens__prefix">{light.split('/')[0]}/</span>{light.split('/')[1]}</span>
-                          </span>
-                        </td>
-                        <td class="is-dark">
-                          <span class="tokens__value">
-                            <span class="tokens__swatch" style={`--swatch: ${color[dark]}`} aria-hidden="true" />
-                            <span><span class="tokens__prefix">{dark.split('/')[0]}/</span>{dark.split('/')[1]}</span>
-                          </span>
-                        </td>
+                        <th scope="row">{row.name}</th>
+                        {[row.light, row.dark].map((value, index) => (
+                          <td class:list={{ 'is-dark': index === 1 }} title={`#${value.hex}${value.opacity < 100 ? ` · ${value.opacity}%` : ''}`}>
+                            <span class="tokens__value">
+                              <span class="tokens__swatch" style={`--swatch: ${value.css}`} aria-hidden="true" />
+                              <span class="tokens__alias">
+                                <span class="tokens__prefix">{splitAlias(value.alias)[0]}</span>
+                                {splitAlias(value.alias)[1]}
+                                <span class="visually-hidden"> #{value.hex}</span>
+                              </span>
+                            </span>
+                          </td>
+                        ))}
                       </tr>
                     ))}
                   </tbody>
@@ -342,7 +283,7 @@ const sections = [
 
 <style>
   /* Compass variables, rebuilt in HTML from the Figma panel so the tables translate and stay sharp.
-     Brand gradient frame, white cards and an ink column that previews Dark mode. Only global.css tokens. */
+     Brand frame (global.css tokens) around the real Compass values; an ink column previews Dark mode. */
   .tokens {
     display: grid;
     gap: clamp(20px, 3vw, 28px);
@@ -542,6 +483,10 @@ const sections = [
     opacity: 0.6;
   }
 
+  .tokens__alias {
+    white-space: nowrap;
+  }
+
   /* The checkerboard shows through translucent values (overlay, transparent) */
   .tokens__swatch {
     flex: none;
@@ -570,8 +515,8 @@ const sections = [
   /* gray blue 50–950 as one continuous ramp */
   .tokens__ramp {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 4px;
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+    gap: 3px;
     padding: 0;
     list-style: none;
   }
@@ -583,8 +528,8 @@ const sections = [
   }
 
   .tokens__ramp-chip {
-    height: 40px;
-    border-radius: 6px;
+    height: 36px;
+    border-radius: 5px;
     background:
       linear-gradient(var(--swatch), var(--swatch)),
       repeating-conic-gradient(var(--line) 0% 25%, var(--white) 0% 50%) 0 0 / 10px 10px;
@@ -632,7 +577,13 @@ const sections = [
 
   @media (max-width: 560px) {
     .tokens__prefix {
-      display: none;
+      display: block;
+      font-size: 11px;
+      white-space: normal;
+    }
+
+    .tokens__value {
+      align-items: flex-start;
     }
 
     .tokens__value {
@@ -673,7 +624,7 @@ const sections = [
     }
 
     .tokens__ramp {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(6, minmax(0, 1fr));
     }
 
     .tokens__table :is(th, td) {
