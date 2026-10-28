@@ -129,7 +129,24 @@ const es = {
         },
       ],
     },
-    screensTitle: 'Pantallas de la app',
+    webTitle: 'Plataforma web de inquilinos',
+    webText:
+      'El mismo recorrido vive en la web de inquilinos de Finaer: un perfil en cinco pasos (inmueble, datos personales, co-inquilinos, avalistas y resumen) que termina en un certificado de pre-garantía para compartir con propietarios e inmobiliarias.',
+    webAlts: [
+      'Primer paso del perfil: ¿en qué punto estás con tu alquiler?, con las opciones ya tengo inmueble o estoy buscando',
+      'Paso de datos personales e ingresos',
+      'Paso de co-inquilinos: ¿te mudas solo o con más personas?',
+      'Paso de avalistas: ¿tienes avalistas?',
+      'Buscador de inmuebles recomendados según el perfil',
+      'Acceso con correo, junto a un certificado de pre-garantía con datos de ejemplo',
+      'Resultado: pre-garantía estimada, progreso de la documentación y opciones para reforzarla',
+    ],
+    resultTitle: 'El resultado: una pre-garantía para compartir',
+    resultText:
+      'Al terminar, el inquilino recibe su pre-garantía estimada, la comparte por WhatsApp, enlace o QR y ve qué le falta para confirmarla. Si su perfil necesita un refuerzo, la propia pantalla le propone sumar a alguien con quien vaya a vivir o a un avalista.',
+    finiTitle: 'Fini: el concepto móvil',
+    finiText:
+      'Antes del rebranding exploré la app móvil Fini: un matching entre inquilinos y viviendas explicado paso a paso, la búsqueda por zonas dibujadas en el mapa y ofertas con su nivel de compatibilidad.',
   },
   b2b: {
     webTitle: 'Web corporativa finaer.es',
@@ -171,7 +188,7 @@ const es = {
       'Instrumenté el producto con <strong>Mixpanel y Firebase</strong> para medir los embudos de conversión y activación y decidir con datos.',
   },
   system: {
-    text: 'Unifiqué la app y la web en un mismo sistema de diseño, creando, refactorizando y sustituyendo en el archivo maestro los componentes que sostienen los flujos más largos.',
+    text: 'Alimenté el sistema de diseño de los dos productos digitales, la app y la plataforma web, y los unifiqué en un mismo lenguaje, creando, refactorizando y sustituyendo en el archivo maestro los componentes que sostienen los flujos más largos.',
     label: 'Componentes clave del sistema de diseño',
     components: {
       progress: {
@@ -350,7 +367,24 @@ const en: typeof es = {
         },
       ],
     },
-    screensTitle: 'App screens',
+    webTitle: 'Tenant web platform',
+    webText:
+      'The same journey lives on Finaer’s tenant website: a five-step profile (property, personal details, co-tenants, guarantors and summary) that ends in a pre-guarantee certificate to share with landlords and agencies.',
+    webAlts: [
+      'First profile step: where are you with your rental?, with the options I already have a property or I’m searching',
+      'Personal details and income step',
+      'Co-tenants step: are you moving alone or with others?',
+      'Guarantors step: do you have guarantors?',
+      'Search with properties recommended for the profile',
+      'Email sign-in next to a pre-guarantee certificate with sample data',
+      'Result: estimated pre-guarantee, document progress and ways to strengthen it',
+    ],
+    resultTitle: 'The result: a pre-guarantee to share',
+    resultText:
+      'At the end, the tenant gets an estimated pre-guarantee, shares it via WhatsApp, link or QR, and sees what is left to confirm it. If the profile needs strengthening, the screen itself suggests adding a flatmate or a guarantor.',
+    finiTitle: 'Fini: the mobile concept',
+    finiText:
+      'Before the rebrand I explored the Fini mobile app: tenant–home matching explained step by step, searching by areas drawn on the map, and offers with their compatibility level.',
   },
   b2b: {
     webTitle: 'Corporate website finaer.es',
@@ -392,7 +426,7 @@ const en: typeof es = {
       'I instrumented the product with <strong>Mixpanel and Firebase</strong> to measure conversion and activation funnels and make data-driven decisions.',
   },
   system: {
-    text: 'I unified the app and the web in one design system, creating, refactoring and replacing in the master file the components that carry the longest flows.',
+    text: 'I fed the design system of both digital products, the app and the web platform, and unified them in one language, creating, refactoring and replacing in the master file the components that carry the longest flows.',
     label: 'Key design system components',
     components: {
       progress: {

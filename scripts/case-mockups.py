@@ -45,6 +45,12 @@ CASES = {
         'screens': ['login.png', 'wf-inicio.png', 'wf-cita-opciones.png', 'wf-confirmacion.png', 'login.png',
                     'wf-cita-lista.png', 'wf-agendando.png', 'wf-cita.png'],
     },
+    'finaer-fivy': {
+        'device': 'tablet',
+        'color': (226, 0, 11),  # Finaer red, from the platform's buttons
+        'screens': ['01-situacion.png', '05-busqueda.png', '03-co-inquilinos.png', '06-acceso.png', '02-datos.png',
+                    '04-avalistas.png'],
+    },
     'kuara': {
         'device': 'tablet',
         'color': (106, 44, 143),  # Purple KUARA/01

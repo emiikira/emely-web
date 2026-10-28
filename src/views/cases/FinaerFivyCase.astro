@@ -16,13 +16,21 @@ const lang = getLang(Astro.currentLocale);
 const c = content[lang];
 
 const cover = media('finaer-fivy/cover.jpg', lang);
-const screenFiles = import.meta.glob<ImageMetadata>('../../assets/projects/finaer-fivy/screens/*.{png,jpg,jpeg,webp}', {
-  eager: true,
-  import: 'default',
-});
-const screens = Object.keys(screenFiles)
-  .sort()
-  .map((file) => screenFiles[file]);
+const sortedImages = (files: Record<string, ImageMetadata>) =>
+  Object.keys(files)
+    .sort()
+    .map((file) => files[file]);
+// Tenant web platform (screens/) and the Fini mobile concept (app/), in file-name order
+const webScreens = sortedImages(
+  import.meta.glob<ImageMetadata>('../../assets/projects/finaer-fivy/screens/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }),
+);
+const appScreens = sortedImages(
+  import.meta.glob<ImageMetadata>('../../assets/projects/finaer-fivy/app/*.{png,jpg,jpeg,webp}', { eager: true, import: 'default' }),
+);
+const [webLead, ...webOthers] = webScreens;
+// The tall result screen gets its own block; the landscape ones go in the grid
+const webRest = webOthers.filter((screen) => screen.width >= screen.height);
+const webResult = webOthers.find((screen) => screen.height > screen.width);
 
 const d = c.ecosystem.diagram;
 const p = c.b2b.panel;
@@ -172,20 +180,48 @@ const sections = [
       </div>
     </figure>
 
+    <h3>{c.app.webTitle}</h3>
+    <p>{c.app.webText}</p>
     {
-      screens.length > 0 && (
-        <>
-          <h3>{c.app.screensTitle}</h3>
-          <ul class="screens-grid">
-            {screens.map((screen) => (
-              <li>
-                <Image src={screen} alt="" widths={[240, 480]} sizes="(max-width: 760px) 44vw, 200px" />
-              </li>
-            ))}
-          </ul>
-        </>
+      webLead && (
+        <figure class="screen-shot">
+          <Image src={webLead} alt={c.app.webAlts[0]} widths={[880, 1680]} sizes="(max-width: 1024px) 92vw, 880px" />
+        </figure>
       )
     }
+    <ul class="web-grid">
+      {
+        webRest.map((screen, index) => (
+          <li>
+            <Image src={screen} alt={c.app.webAlts[index + 1] ?? ''} widths={[440, 880]} sizes="(max-width: 760px) 92vw, 440px" />
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      webResult && (
+        <div class="result">
+          <div>
+            <h4>{c.app.resultTitle}</h4>
+            <p>{c.app.resultText}</p>
+          </div>
+          <Image src={webResult} alt={c.app.webAlts[c.app.webAlts.length - 1]} widths={[420, 865]} sizes="(max-width: 760px) 92vw, 420px" />
+        </div>
+      )
+    }
+
+    <h3>{c.app.finiTitle}</h3>
+    <p>{c.app.finiText}</p>
+    <ul class="screens-grid">
+      {
+        appScreens.map((screen) => (
+          <li>
+            <Image src={screen} alt="" widths={[240, 480]} sizes="(max-width: 760px) 44vw, 180px" />
+          </li>
+        ))
+      }
+    </ul>
   </CaseSection>
 
   <CaseSection id="b2b" number={5} title={c.sections.b2b}>
@@ -620,9 +656,54 @@ const sections = [
     font-weight: var(--fw-semibold);
   }
 
+  /* Tenant web screens: one large, the rest in a two-column grid */
+  .screen-shot :global(img),
+  .web-grid :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--panel-shadow);
+  }
+
+  .web-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* The pre-guarantee result: text next to the tall screen */
+  .result {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    align-items: center;
+    gap: clamp(24px, 4vw, 48px);
+    padding: clamp(20px, 3vw, 32px);
+    border-radius: var(--radius-lg);
+    background: var(--purple-06);
+  }
+
+  .result h4 {
+    margin-bottom: 8px;
+    color: var(--purple);
+    font-size: 20px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .result :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--panel-shadow);
+  }
+
   .screens-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 16px;
     padding: 0;
     list-style: none;
@@ -1123,7 +1204,15 @@ const sections = [
     }
 
     .screens-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .web-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .result {
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .ds__sheet-item {
