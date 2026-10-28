@@ -90,16 +90,26 @@ const es = {
     panel: {
       // [before, highlighted, after]: the highlighted part is shown in bold
       title: ['Panel de propiedades ', 'en Figma', ''],
-      tokens: [
-        {
-          term: 'Primitivas (Tokens Base):',
-          text: 'La paleta cruda de valores fijos (colores, escalas y medidas) que sirven como cimiento inalterable del sistema.',
-        },
-        {
-          term: 'Semánticas (Tokens de Intención):',
-          text: 'Capa lógica que asigna un propósito funcional a cada valor (ej. fondos, textos, bordes o estados), permitiendo una gestión limpia y automatizada entre el Light Mode y el Dark Mode sin romper la coherencia visual.',
-        },
-      ],
+      primitives: {
+        term: 'Primitivas',
+        text: 'La paleta cruda de valores fijos (colores, escalas y medidas) que sirven como cimiento inalterable del sistema.',
+      },
+      semantics: {
+        term: 'Semánticas',
+        text: 'Capa lógica que asigna un propósito funcional a cada valor (ej. fondos, textos, bordes o estados), permitiendo una gestión limpia y automatizada entre el Light Mode y el Dark Mode sin romper la coherencia visual.',
+      },
+      // Table headers and small labels of the rebuilt Figma panel
+      labels: {
+        variables: 'variables',
+        name: 'Nombre',
+        value: 'Valor',
+        light: 'Light mode',
+        dark: 'Dark mode',
+        scale: 'Escala de 50 a 950',
+        groups: 'Más grupos',
+        excerpt: 'Extracto de la colección',
+        opacity: 'opacidad',
+      },
     },
     alt: 'Variables de Compass en Figma: la colección de primitivas y la de semánticas con sus valores en modo claro y oscuro',
     cards: [
@@ -223,16 +233,25 @@ const en: typeof es = {
   impact: {
     panel: {
       title: ['', 'Figma', ' Properties Panel'],
-      tokens: [
-        {
-          term: 'Primitives (Base Tokens):',
-          text: 'The raw palette of fixed values (colors, scales, and measurements) that serve as the unalterable foundation of the system.',
-        },
-        {
-          term: 'Semantics (Intent Tokens):',
-          text: 'The logical layer assigning a functional purpose to each value (e.g., backgrounds, text, borders, or states), enabling clean, automated management between Light Mode and Dark Mode without breaking visual consistency.',
-        },
-      ],
+      primitives: {
+        term: 'Primitives',
+        text: 'The raw palette of fixed values (colors, scales, and measurements) that serve as the unalterable foundation of the system.',
+      },
+      semantics: {
+        term: 'Semantics',
+        text: 'The logical layer assigning a functional purpose to each value (e.g., backgrounds, text, borders, or states), enabling clean, automated management between Light Mode and Dark Mode without breaking visual consistency.',
+      },
+      labels: {
+        variables: 'variables',
+        name: 'Name',
+        value: 'Value',
+        light: 'Light mode',
+        dark: 'Dark mode',
+        scale: 'Scale from 50 to 950',
+        groups: 'More groups',
+        excerpt: 'Excerpt from the collection',
+        opacity: 'opacity',
+      },
     },
     alt: 'Compass variables in Figma: the primitives collection and the semantics collection with their light and dark mode values',
     cards: [
