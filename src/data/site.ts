@@ -120,7 +120,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'centro-medico',
-    name: 'Centro Médico IS',
+    name: 'Centro Médico IM',
     category: { es: 'App de salud', en: 'Health app' },
     summary: {
       es: 'App de citas médicas y control sanitario para un centro médico en Madrid, de la investigación a los wireframes.',
