@@ -8,11 +8,18 @@
 import os
 import sys
 
-from PIL import Image, ImageDraw, ImageFilter
+from PIL import Image, ImageDraw, ImageFilter, ImageOps
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../src/assets/projects/')
 
 CASES = {
+    'pinsxp': {
+        'device': 'phone',
+        'color': (43, 164, 84),  # green of the PinsXP cover
+        'cover': False,  # the hand-made cover in projects/home/pinsxp.jpg stays; only the portrait card is built
+        'screens': ['welcome.png', 'feed.jpg', 'mapa.png', 'onboarding.png', 'moment-video.jpg', 'itinerario.jpg',
+                    'flip-card.png', 'moment.jpg'],
+    },
     'mercantil': {
         'device': 'phone',
         'color': (1, 78, 156),  # Mercantil blue, from the app
@@ -62,7 +69,8 @@ def load(case, name, device, status_bar=False):
 
 def phone(img, w):
     h = round(w * PHONE_RATIO)
-    img = img.resize((w, h), Image.LANCZOS)
+    # Fill the screen without distorting: screens with another ratio are cropped, never stretched
+    img = ImageOps.fit(img, (w, h), Image.LANCZOS, centering=(0.5, 0))
     b = round(w * 0.045)  # bezel
     out = Image.new('RGBA', (w + 2 * b, h + 2 * b), (0, 0, 0, 0))
     d = ImageDraw.Draw(out)
@@ -133,7 +141,8 @@ def crop(img, w, h, dx=0, dy=0):
 def build(case):
     big = compose(case)
     out = os.path.join(ROOT, case)
-    crop(big, 2880, 1620, dx=-120, dy=60).resize((1920, 1080), Image.LANCZOS).save(os.path.join(out, 'cover.jpg'), quality=90)
+    if CASES[case].get('cover', True):
+        crop(big, 2880, 1620, dx=-120, dy=60).resize((1920, 1080), Image.LANCZOS).save(os.path.join(out, 'cover.jpg'), quality=90)
     crop(big, 1820, 2730, dx=-150, dy=-200).resize((1365, 2048), Image.LANCZOS).save(os.path.join(out, 'portrait.jpg'), quality=90)
     print('built', case)
 

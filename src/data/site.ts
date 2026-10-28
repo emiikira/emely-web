@@ -6,7 +6,7 @@ import homePinsxp from '../assets/projects/home/pinsxp.jpg';
 import homeIn99 from '../assets/projects/in99/cover.jpg';
 import homeMercantil from '../assets/projects/mercantil/cover.jpg';
 import homeCrudebeauty from '../assets/projects/crudebeauty/cover.jpg';
-import portfolioPinsxp from '../assets/projects/portfolio/pinsxp.jpg';
+import portfolioPinsxp from '../assets/projects/pinsxp/portrait.jpg';
 import portfolioIn99 from '../assets/projects/in99/portrait.jpg';
 import portfolioMercantil from '../assets/projects/mercantil/portrait.jpg';
 import portfolioCrudebeauty from '../assets/projects/crudebeauty/portrait.jpg';
