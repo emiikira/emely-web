@@ -1,0 +1,1142 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import CaseStudy from '../../layouts/CaseStudy.astro';
+import CaseSection from '../../components/CaseSection.astro';
+import ProcessSteps from '../../components/ProcessSteps.astro';
+import content from '../../i18n/cases/finaer-fivy';
+import { getLang } from '../../i18n';
+import { media } from '../../i18n/media';
+
+// Shared markup of the case study; the text comes from src/i18n/cases/finaer-fivy.ts.
+// The B2B backoffice is under NDA, so the ecosystem diagram, the assessment panel and the component
+// sheet are built in HTML/CSS with illustrative data. App screens (Fini/Fivy) live in finaer-fivy/screens/
+// and are listed automatically, in file-name order.
+const lang = getLang(Astro.currentLocale);
+const c = content[lang];
+
+const cover = media('finaer-fivy/cover.jpg', lang);
+const screenFiles = import.meta.glob<ImageMetadata>('../../assets/projects/finaer-fivy/screens/*.{png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+});
+const screens = Object.keys(screenFiles)
+  .sort()
+  .map((file) => screenFiles[file]);
+
+const d = c.ecosystem.diagram;
+const p = c.b2b.panel;
+const ds = c.system.components;
+
+const sections = [
+  { id: 'resumen', title: c.sections.overview },
+  { id: 'reto', title: c.sections.challenge },
+  { id: 'ecosistema', title: c.sections.ecosystem },
+  { id: 'app', title: c.sections.app },
+  { id: 'b2b', title: c.sections.b2b },
+  { id: 'sistema', title: c.sections.system },
+  { id: 'impacto', title: c.sections.impact },
+];
+---
+
+<CaseStudy
+  slug="finaer-fivy"
+  name={c.title}
+  tagline={c.tagline}
+  cover={cover}
+  description={c.description}
+  brief={c.brief}
+  details={c.details}
+  sections={sections}
+  note={c.note}
+>
+  <CaseSection id="resumen" number={1} title={c.sections.overview}>
+    <p>{c.overview.text}</p>
+    <ul class="cards">
+      {
+        c.overview.products.map((card) => (
+          <li class="card">
+            <h4>{card.title}</h4>
+            {card.text}
+          </li>
+        ))
+      }
+    </ul>
+    <h3>{c.overview.toolsTitle}</h3>
+    <ul class="chips" translate="no">
+      {c.overview.tools.map((tool) => <li>{tool}</li>)}
+    </ul>
+  </CaseSection>
+
+  <CaseSection id="reto" number={2} title={c.sections.challenge}>
+    <p class="callout">{c.challenge.callout}</p>
+    <p set:html={c.challenge.text} />
+    <h3>{c.challenge.problemTitle}</h3>
+    <ul class="cards">
+      {
+        c.challenge.problems.map((card) => (
+          <li class="card">
+            <h4>{card.title}</h4>
+            {card.text}
+          </li>
+        ))
+      }
+    </ul>
+  </CaseSection>
+
+  <CaseSection id="ecosistema" number={3} title={c.sections.ecosystem}>
+    <p>{c.ecosystem.text}</p>
+
+    <!-- 1. Synchronised B2C <-> B2B flow -->
+    <figure class="board sync" aria-label={d.label}>
+      <div class="sync__row">
+        <div class="glass-card sync__node">
+          <span class="sync__badge">B2C</span>
+          <h4>{d.app.title}</h4>
+          <p class="sync__sub">{d.app.subtitle}</p>
+          <ul class="sync__actors">
+            {d.app.actors.map((actor) => <li>{actor}</li>)}
+          </ul>
+        </div>
+
+        <div class="sync__link" aria-hidden="true">
+          <span>{d.toEngine}</span>
+        </div>
+
+        <div class="glass-card sync__node sync__node--engine">
+          <span class="sync__badge">API</span>
+          <h4 translate="no">{d.engine.title}</h4>
+          <p class="sync__sub">{d.engine.subtitle}</p>
+          <ul class="sync__list">
+            {d.engine.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+
+        <div class="sync__link" aria-hidden="true">
+          <span>{d.toB2b}</span>
+        </div>
+
+        <div class="glass-card sync__node">
+          <span class="sync__badge">B2B</span>
+          <h4 translate="no">{d.b2b.title}</h4>
+          <p class="sync__sub">{d.b2b.subtitle}</p>
+          <ul class="sync__list">
+            {d.b2b.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <p class="sync__return"><span aria-hidden="true">↺</span> {d.request}</p>
+
+      <div class="sync__result">
+        <strong>{d.result}</strong>
+        <ul>
+          {d.resultItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </figure>
+
+    <ProcessSteps steps={c.ecosystem.steps} label={c.sections.ecosystem} />
+  </CaseSection>
+
+  <CaseSection id="app" number={4} title={c.sections.app}>
+    <p set:html={c.app.text} />
+    <h3>{c.app.flowsTitle}</h3>
+    <ul class="cards">
+      {
+        c.app.flows.map((card) => (
+          <li class="card">
+            <h4>{card.title}</h4>
+            {card.text}
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- 3a. Onboarding branching -->
+    <figure class="board branch" aria-label={c.app.branch.label}>
+      <p class="glass-card branch__question">{c.app.branch.question}</p>
+      <div class="branch__paths">
+        {
+          c.app.branch.paths.map((path, index) => (
+            <div class:list={['glass-card', 'branch__path', { 'branch__path--alt': index === 1 }]}>
+              <h4>{path.title}</h4>
+              <ol>
+                {path.steps.map((step) => (
+                  <li>{step}</li>
+                ))}
+              </ol>
+            </div>
+          ))
+        }
+      </div>
+    </figure>
+
+    {
+      screens.length > 0 && (
+        <>
+          <h3>{c.app.screensTitle}</h3>
+          <ul class="screens-grid">
+            {screens.map((screen) => (
+              <li>
+                <Image src={screen} alt="" widths={[240, 480]} sizes="(max-width: 760px) 44vw, 200px" />
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </CaseSection>
+
+  <CaseSection id="b2b" number={5} title={c.sections.b2b}>
+    <h3>{c.b2b.webTitle}</h3>
+    <p>{c.b2b.webText}</p>
+
+    <h3>{c.b2b.saiTitle}</h3>
+    <p>{c.b2b.saiText}</p>
+    <ul class="list">
+      {c.b2b.saiPoints.map((point) => <li set:html={point} />)}
+    </ul>
+
+    <!-- 2. Abstract recreation of the B2B assessment panel -->
+    <figure class="board" aria-label={p.label}>
+      <div class="glass-card eval">
+        <header class="eval__head">
+          <div>
+            <p class="eval__kicker">{p.kicker}</p>
+            <h4>{p.property}</h4>
+          </div>
+          <span class="eval__status">{p.status}</span>
+        </header>
+
+        <div class="eval__body">
+          <section class="eval__group" aria-label={p.applicantsTitle}>
+            <h5>{p.applicantsTitle}</h5>
+            <ul>
+              {
+                p.applicants.map((person) => (
+                  <li>
+                    <span class="eval__avatar" aria-hidden="true">
+                      {person.initials}
+                    </span>
+                    <span class="eval__who">
+                      <strong>{person.name}</strong>
+                      <span>{person.role}</span>
+                    </span>
+                    <span class="eval__docs">
+                      <span aria-hidden="true">✓</span> {person.docs}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+
+          <section class="eval__risk" aria-label={p.riskTitle}>
+            <h5 translate="no">{p.riskTitle}</h5>
+            <div class="light" role="img" aria-label={p.riskActive}>
+              <span class="light__dot light__dot--low is-on">{p.risk.low}</span>
+              <span class="light__dot light__dot--mid">{p.risk.medium}</span>
+              <span class="light__dot light__dot--high">{p.risk.high}</span>
+            </div>
+            <p class="eval__verdict">{p.riskActive}</p>
+          </section>
+
+          <section class="eval__metrics">
+            <div class="eval__metric eval__metric--main">
+              <h5>{p.maxTitle}</h5>
+              <p><strong>{p.maxValue}</strong> <span>{p.maxUnit}</span></p>
+            </div>
+            <div class="eval__metric">
+              <h5>{p.extraTitle}</h5>
+              <p><strong>{p.extraValue}</strong> <span>{p.extraHint}</span></p>
+            </div>
+          </section>
+        </div>
+        <p class="eval__note">{p.illustrative}</p>
+      </div>
+    </figure>
+
+    <h3>{c.b2b.proTitle}</h3>
+    <p>{c.b2b.proText}</p>
+    <ul class="chips chips--brand">
+      {c.b2b.modules.map((module) => <li>{module}</li>)}
+    </ul>
+    <p set:html={c.b2b.analytics} />
+  </CaseSection>
+
+  <CaseSection id="sistema" number={6} title={c.sections.system}>
+    <p>{c.system.text}</p>
+
+    <!-- 3b. Design system components, recreated -->
+    <figure class="board" aria-label={c.system.label}>
+      <div class="ds">
+        <section class="glass-card ds__item ds__item--wide">
+          <h4>{ds.progress.title}</h4>
+          <p>{ds.progress.text}</p>
+          <ol class="progress" aria-label={ds.progress.title}>
+            {
+              ds.progress.steps.map((step, index) => (
+                <li class:list={{ 'is-done': index < 2, 'is-current': index === 2 }}>
+                  <span class="progress__bar" aria-hidden="true" />
+                  <span>{step}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </section>
+
+        <section class="glass-card ds__item">
+          <h4>{ds.buttons.title}</h4>
+          <p>{ds.buttons.text}</p>
+          <div class="ds__buttons" aria-hidden="true">
+            <span class="dsb dsb--primary">{ds.buttons.primary}</span>
+            <span class="dsb dsb--secondary">{ds.buttons.secondary}</span>
+            <span class="dsb dsb--ghost">{ds.buttons.ghost}</span>
+            <span class="dsb dsb--disabled">{ds.buttons.disabled}</span>
+          </div>
+        </section>
+
+        <section class="glass-card ds__item">
+          <h4>{ds.headers.title}</h4>
+          <p>{ds.headers.text}</p>
+          <div class="ds__headers" aria-hidden="true">
+            <div class="hdr hdr--mobile"><span>‹</span><strong>{ds.headers.mobile}</strong><span>⋯</span></div>
+            <div class="hdr hdr--web">
+              <span class="hdr__logo" translate="no">fivy</span><strong>{ds.headers.web}</strong><span class="hdr__avatar" />
+            </div>
+          </div>
+        </section>
+
+        <section class="glass-card ds__item ds__item--wide ds__sheet-item">
+          <div>
+            <h4>{ds.sheet.title}</h4>
+            <p>{ds.sheet.text}</p>
+          </div>
+          <div class="mini-phone" aria-hidden="true">
+            <div class="mini-phone__screen">
+              <span class="mini-phone__line" />
+              <span class="mini-phone__line mini-phone__line--short" />
+              <span class="mini-phone__line" />
+              <div class="sheet">
+                <span class="sheet__grip" />
+                <strong>{ds.sheet.heading}</strong>
+                {ds.sheet.options.map((option) => <span class="sheet__option">{option}</span>)}
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </figure>
+  </CaseSection>
+
+  <CaseSection id="impacto" number={7} title={c.sections.impact}>
+    <ul class="cards">
+      {
+        c.impact.cards.map((card) => (
+          <li class="card">
+            <h4>{card.title}</h4>
+            {card.text}
+          </li>
+        ))
+      }
+    </ul>
+    <h3>{c.impact.takeawaysTitle}</h3>
+    <ul class="list">
+      {c.impact.takeaways.map((item) => <li>{item}</li>)}
+    </ul>
+  </CaseSection>
+</CaseStudy>
+
+<style>
+  /* Tools and modules as pills */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips li {
+    padding: 6px 14px;
+    border: 1px solid var(--panel-line);
+    border-radius: 999px;
+    background: var(--purple-06);
+    color: var(--purple);
+    font-size: 13px;
+    font-weight: var(--fw-medium);
+  }
+
+  .chips--brand li {
+    border-color: transparent;
+    background: var(--fuchsia-12);
+    color: var(--fuchsia);
+  }
+
+  /* Glass boards: portfolio brand gradient with translucent cards on top */
+  .board {
+    display: grid;
+    gap: 18px;
+    padding: clamp(18px, 3.5vw, 36px);
+    border-radius: var(--radius-lg);
+    background: var(--brand-gradient);
+    color: var(--white);
+  }
+
+  .glass-card {
+    border: 1px solid var(--glass-line);
+    border-radius: var(--radius-md);
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: var(--glass-shadow);
+    color: var(--white);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .board h4,
+  .board h5,
+  .board strong {
+    color: var(--white);
+  }
+
+  /* 1. Sync diagram */
+  .sync__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 70px minmax(0, 1fr) 70px minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .sync__node {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 6px;
+    padding: 22px 20px 20px;
+  }
+
+  .sync__node--engine {
+    background: rgb(255 255 255 / 0.2);
+  }
+
+  .sync__badge {
+    justify-self: start;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.18);
+    font-size: 11px;
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.08em;
+  }
+
+  .sync__node h4 {
+    margin-top: 4px;
+    font-size: 19px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .sync__sub {
+    font-size: 13px;
+    opacity: 0.8;
+  }
+
+  .sync__actors,
+  .sync__list {
+    display: grid;
+    gap: 6px;
+    margin-top: 8px;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+  }
+
+  .sync__actors li {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgb(255 255 255 / 0.14);
+  }
+
+  .sync__list li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background: var(--white);
+    vertical-align: middle;
+  }
+
+  /* Arrow between nodes, with its label */
+  .sync__link {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+  .sync__link::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    left: 8px;
+    height: 2px;
+    background: rgb(255 255 255 / 0.6);
+  }
+
+  .sync__link::after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 5px);
+    right: 6px;
+    border: 6px solid transparent;
+    border-right: 0;
+    border-left: 9px solid rgb(255 255 255 / 0.8);
+  }
+
+  .sync__link span {
+    position: relative;
+    top: -18px;
+    font-size: 10.5px;
+    line-height: 1.2;
+    text-align: center;
+    opacity: 0.9;
+  }
+
+  .sync__return {
+    justify-self: center;
+    text-align: center;
+    padding: 6px 14px;
+    border: 1px dashed rgb(255 255 255 / 0.5);
+    border-radius: 999px;
+    font-size: 13px;
+  }
+
+  .sync__result {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 16px;
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    background: var(--white);
+    color: var(--ink);
+  }
+
+  .sync__result strong {
+    color: var(--purple);
+    font-size: 14px;
+  }
+
+  .sync__result ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sync__result li {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--fuchsia-12);
+    color: var(--fuchsia);
+    font-size: 13px;
+    font-weight: var(--fw-medium);
+  }
+
+  /* 3a. Onboarding branching */
+  .branch__question {
+    justify-self: center;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .branch__paths {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding-top: 26px;
+  }
+
+  /* The fork: one line down from the question, splitting to both paths */
+  .branch__paths::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 25%;
+    left: 25%;
+    height: 14px;
+    border: 2px solid rgb(255 255 255 / 0.6);
+    border-bottom: 0;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .branch__path {
+    padding: 22px 20px;
+  }
+
+  .branch__path--alt {
+    background: rgb(255 255 255 / 0.2);
+  }
+
+  .branch__path h4 {
+    margin-bottom: 14px;
+    font-size: 17px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .branch__path ol {
+    display: grid;
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    font-size: 14px;
+  }
+
+  .branch__path li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    counter-increment: step;
+  }
+
+  .branch__path li::before {
+    content: counter(step);
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--purple);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .screens-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .screens-grid :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--panel-shadow);
+  }
+
+  /* 2. Assessment panel */
+  .eval {
+    display: grid;
+    gap: 18px;
+    padding: clamp(18px, 3vw, 28px);
+  }
+
+  .eval__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.2);
+  }
+
+  .eval__kicker {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .eval__head h4 {
+    font-size: 19px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .eval__status {
+    flex: none;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--purple);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .eval__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .eval h5 {
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .eval__group ul {
+    display: grid;
+    gap: 8px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .eval__group li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 2px 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.12);
+  }
+
+  .eval__avatar {
+    display: grid;
+    grid-row: span 2;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--purple);
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .eval__who {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
+    font-size: 14px;
+  }
+
+  .eval__who span {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  .eval__docs {
+    font-size: 12px;
+    opacity: 0.85;
+  }
+
+  /* Traffic light: the active level is lit, the others dimmed */
+  .light {
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+  }
+
+  .light__dot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    opacity: 0.45;
+  }
+
+  .light__dot::before {
+    content: '';
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--dot);
+  }
+
+  .light__dot--low {
+    --dot: #2fd27a;
+  }
+
+  .light__dot--mid {
+    --dot: #ffc93c;
+  }
+
+  .light__dot--high {
+    --dot: #ff5a5f;
+  }
+
+  .light__dot.is-on {
+    font-weight: var(--fw-semibold);
+    opacity: 1;
+  }
+
+  .light__dot.is-on::before {
+    box-shadow:
+      0 0 0 4px rgb(255 255 255 / 0.25),
+      0 0 18px var(--dot);
+  }
+
+  .eval__verdict {
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .eval__metrics {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+
+  .eval__metric {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgb(255 255 255 / 0.12);
+  }
+
+  .eval__metric--main {
+    background: var(--white);
+    color: var(--ink);
+  }
+
+  .eval__metric--main h5 {
+    color: var(--purple);
+    opacity: 1;
+  }
+
+  .eval__metric p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .eval__metric strong {
+    font-size: 26px;
+    font-weight: var(--fw-bold);
+    line-height: 1.1;
+  }
+
+  .eval__metric--main strong {
+    color: var(--purple);
+  }
+
+  .eval__note {
+    justify-self: end;
+    font-size: 11px;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  /* 3b. Design system sheet */
+  .ds {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .ds__item {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: 20px;
+  }
+
+  .ds__item--wide {
+    grid-column: 1 / -1;
+  }
+
+  .ds__item h4 {
+    font-size: 16px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .ds__item > p,
+  .ds__item > div > p {
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  .progress {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+    padding: 0;
+    list-style: none;
+    font-size: 12px;
+  }
+
+  .progress li {
+    display: grid;
+    gap: 6px;
+    opacity: 0.6;
+  }
+
+  .progress__bar {
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.25);
+  }
+
+  .progress li.is-done,
+  .progress li.is-current {
+    opacity: 1;
+  }
+
+  .progress li.is-done .progress__bar {
+    background: var(--white);
+  }
+
+  .progress li.is-current .progress__bar {
+    background: linear-gradient(90deg, var(--white) 55%, rgb(255 255 255 / 0.25) 55%);
+  }
+
+  .progress li.is-current span:last-child {
+    font-weight: var(--fw-semibold);
+  }
+
+  .ds__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .dsb {
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: var(--fw-semibold);
+  }
+
+  .dsb--primary {
+    background: var(--white);
+    color: var(--purple);
+  }
+
+  .dsb--secondary {
+    border: 1.5px solid var(--white);
+  }
+
+  .dsb--ghost {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .dsb--disabled {
+    background: rgb(255 255 255 / 0.18);
+    color: rgb(255 255 255 / 0.55);
+  }
+
+  .ds__headers {
+    display: grid;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--white);
+    color: var(--ink);
+    font-size: 13px;
+  }
+
+  .hdr strong {
+    color: var(--ink);
+  }
+
+  .hdr--mobile {
+    max-width: 220px;
+  }
+
+  .hdr--web {
+    justify-content: flex-start;
+  }
+
+  .hdr__logo {
+    margin-right: 12px;
+    color: var(--purple);
+    font-weight: var(--fw-bold);
+  }
+
+  .hdr__avatar {
+    width: 22px;
+    height: 22px;
+    margin-left: auto;
+    border-radius: 50%;
+    background: var(--brand-gradient);
+  }
+
+  .ds__sheet-item {
+    grid-template-columns: minmax(0, 1fr) 190px;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .mini-phone {
+    padding: 6px;
+    border-radius: 26px;
+    background: #121214;
+  }
+
+  .mini-phone__screen {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    height: 230px;
+    overflow: hidden;
+    padding: 22px 14px;
+    border-radius: 20px;
+    background: var(--surface);
+  }
+
+  .mini-phone__line {
+    height: 10px;
+    border-radius: 999px;
+    background: var(--line);
+  }
+
+  .mini-phone__line--short {
+    width: 60%;
+  }
+
+  .mini-phone__screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(22 22 22 / 0.35);
+  }
+
+  .sheet {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: grid;
+    gap: 8px;
+    padding: 10px 14px 16px;
+    border-radius: 16px 16px 0 0;
+    background: var(--white);
+    color: var(--ink);
+    font-size: 12px;
+  }
+
+  .sheet strong {
+    color: var(--ink);
+    font-size: 13px;
+  }
+
+  .sheet__grip {
+    justify-self: center;
+    width: 34px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--line);
+  }
+
+  .sheet__option {
+    padding: 8px 10px;
+    border: 1px solid var(--panel-line);
+    border-radius: 8px;
+  }
+
+  .sheet__option:first-of-type {
+    border-color: var(--purple);
+    background: var(--purple-06);
+    color: var(--purple);
+    font-weight: var(--fw-semibold);
+  }
+
+  @media (max-width: 900px) {
+    .sync__row {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Vertical arrows between stacked nodes */
+    .sync__link {
+      height: 54px;
+    }
+
+    .sync__link::before {
+      top: 6px;
+      bottom: 6px;
+      left: 50%;
+      width: 2px;
+      height: auto;
+    }
+
+    .sync__link::after {
+      top: auto;
+      right: calc(50% - 5px);
+      bottom: 4px;
+      border: 6px solid transparent;
+      border-bottom: 0;
+      border-top: 9px solid rgb(255 255 255 / 0.8);
+    }
+
+    .sync__link span {
+      top: 0;
+      left: 60px;
+      padding: 2px 8px;
+      text-align: left;
+    }
+
+    .eval__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .light {
+      grid-auto-flow: column;
+      justify-content: start;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .branch__paths,
+    .ds {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .branch__paths::before {
+      display: none;
+    }
+
+    .branch__paths {
+      padding-top: 0;
+    }
+
+    .screens-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ds__sheet-item {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .mini-phone {
+      justify-self: center;
+      width: 190px;
+    }
+
+    .progress {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -12,6 +12,8 @@ import portfolioMercantil from '../assets/projects/mercantil/portrait.jpg';
 import portfolioCrudebeauty from '../assets/projects/crudebeauty/portrait.jpg';
 import portfolioNuva from '../assets/projects/portfolio/nuva.jpg';
 import homeKuara from '../assets/projects/kuara/cover.jpg';
+import homeFinaer from '../assets/projects/finaer-fivy/cover.jpg';
+import portfolioFinaer from '../assets/projects/finaer-fivy/portrait.jpg';
 import homeCentroMedico from '../assets/projects/centro-medico/cover.jpg';
 import portfolioCentroMedico from '../assets/projects/centro-medico/portrait.jpg';
 import portfolioKuara from '../assets/projects/kuara/portrait.jpg';
@@ -72,6 +74,17 @@ export const projects: Project[] = [
     cover: homePinsxp,
     portrait: portfolioPinsxp,
     status: 'project.status.ongoing',
+  },
+  {
+    slug: 'finaer-fivy',
+    name: 'Finaer & Fivy',
+    category: { es: 'PropTech · B2C + B2B', en: 'PropTech · B2C + B2B' },
+    summary: {
+      es: 'Ecosistema de garantías de alquiler: app para inquilinos, backoffice para inmobiliarias y la web finaer.es.',
+      en: 'Rental guarantees ecosystem: tenant app, agency backoffice and the finaer.es website.',
+    },
+    cover: homeFinaer,
+    portrait: portfolioFinaer,
   },
   {
     slug: 'kuara',

@@ -20,7 +20,7 @@ export const getLang = (locale: string | undefined): Lang => (isLang(locale) ? l
 export const useTranslations = (lang: Lang) => (key: UiKey) => ui[lang][key];
 
 // Every case study exists in every language, under the projects page of each one
-export const caseSlugs = ['pinsxp', 'kuara', 'mercantil', 'crudebeauty', 'in99', 'centro-medico'] as const;
+export const caseSlugs = ['pinsxp', 'finaer-fivy', 'kuara', 'mercantil', 'crudebeauty', 'in99', 'centro-medico'] as const;
 export type CaseSlug = (typeof caseSlugs)[number];
 
 const caseRoutes = Object.fromEntries(
