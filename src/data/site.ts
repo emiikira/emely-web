@@ -12,6 +12,8 @@ import portfolioMercantil from '../assets/projects/portfolio/mercantil.jpg';
 import portfolioCrudebeauty from '../assets/projects/portfolio/crudebeauty.jpg';
 import portfolioCentroMedico from '../assets/projects/portfolio/centro-medico-is.jpg';
 import portfolioNuva from '../assets/projects/portfolio/nuva.jpg';
+import homeKuara from '../assets/projects/kuara/cover.jpg';
+import portfolioKuara from '../assets/projects/kuara/portrait.jpg';
 
 // Language-independent facts. Titles, descriptions and labels live in src/i18n/ui.ts.
 export const site = {
@@ -46,6 +48,8 @@ export interface Project {
   focus?: string;
   /** Optional delivery status shown on the cards next to "Caso de estudio". */
   status?: ProjectStatus;
+  /** Shown in the featured grid of the home page (default true). */
+  featured?: boolean;
 }
 
 export interface UpcomingProject {
@@ -67,6 +71,19 @@ export const projects: Project[] = [
     cover: homePinsxp,
     portrait: portfolioPinsxp,
     status: 'project.status.ongoing',
+  },
+  {
+    slug: 'kuara',
+    name: 'Kuara',
+    category: { es: 'Fintech · Sistema de diseño', en: 'Fintech · Design system' },
+    summary: {
+      es: 'Flujos y sistema de diseño para la plataforma web de pagos interbancarios de Kuara, en Panamá.',
+      en: 'Flows and design system for Kuara’s interbank payments web platform in Panama.',
+    },
+    cover: homeKuara,
+    portrait: portfolioKuara,
+    focus: 'center top',
+    featured: false,
   },
   {
     slug: 'mercantil',

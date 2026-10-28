@@ -15,7 +15,7 @@ const copy = {
   es: {
     title: 'Proyectos',
     description:
-      'Casos de estudio de Emely Aponte: sistema de diseño para PinsXP, banca móvil para Mercantil Banco, e-commerce para CrudeBeauty y una app fintech para in99.',
+      'Casos de estudio de Emely Aponte: sistemas de diseño para PinsXP y Kuara, banca móvil para Mercantil Banco, e-commerce para CrudeBeauty y una app fintech para in99.',
     heading: ['Una muestra de ', 'mi trabajo'],
     lead: 'Cada caso de estudio recorre el proceso completo: contexto, investigación, decisiones de diseño y resultados.',
     published: 'Casos de estudio',
@@ -27,7 +27,7 @@ const copy = {
   en: {
     title: 'Projects',
     description:
-      'Case studies by Emely Aponte: a design system for PinsXP, mobile banking for Mercantil Banco, e-commerce for CrudeBeauty and a fintech app for in99.',
+      'Case studies by Emely Aponte: design systems for PinsXP and Kuara, mobile banking for Mercantil Banco, e-commerce for CrudeBeauty and a fintech app for in99.',
     heading: ['A selection of ', 'my work'],
     lead: 'Each case study walks through the whole process: context, research, design decisions and results.',
     published: 'Case studies',
@@ -223,6 +223,11 @@ const caseStatus = (project: (typeof projects)[number]) =>
     list-style: none;
   }
 
+  /* A card left alone in the last row sits in the middle column */
+  .cases__grid > li:last-child:nth-child(3n + 1) {
+    grid-column: 2;
+  }
+
   /* Cita */
   .quote-band :global(.quote-band__image) {
     transform: scaleY(-1);
@@ -252,6 +257,17 @@ const caseStatus = (project: (typeof projects)[number]) =>
 
     .cases__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Two columns: the lone last card is centred at the width of one column */
+    .cases__grid > li:last-child:nth-child(3n + 1) {
+      grid-column: auto;
+    }
+
+    .cases__grid > li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: calc(50% - clamp(20px, 2.4vw, 32px) / 2);
     }
   }
 

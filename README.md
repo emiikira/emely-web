@@ -14,7 +14,7 @@ Sitio estático hecho con [Astro](https://astro.build). El diseño sale del arch
 
 ## Estructura
 
-- `src/pages/`: Inicio, Sobre mí (`sobre-mi`), Proyectos (`proyectos/`, con los casos de PinsXP, Mercantil y CrudeBeauty) y Contacto (`contacto`, más `contacto/gracias`). `/portafolio` redirige a `/proyectos`.
+- `src/pages/`: Inicio, Sobre mí (`sobre-mi`), Proyectos (`proyectos/`, con los casos de PinsXP, Kuara, Mercantil, CrudeBeauty e in99) y Contacto (`contacto`, más `contacto/gracias`). `/portafolio` redirige a `/proyectos`.
 - `src/layouts/CaseStudy.astro` y `src/components/CaseSection.astro`: plantilla común de los casos de estudio (índice lateral, secciones numeradas, tarjetas, cifras y siguiente proyecto).
 - `src/data/site.ts`: enlaces (CV, LinkedIn, Behance) y datos de los proyectos.
 - `src/styles/global.css`: tokens de diseño. Tipografía única **Poppins** (300/400/500/600/700) y paleta de dos colores: morado `#6600BF` y fucsia `#C9009D`, más neutros.

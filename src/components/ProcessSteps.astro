@@ -11,7 +11,7 @@ const t = useTranslations(getLang(Astro.currentLocale));
 const { steps, label = t('case.processLabel') } = Astro.props;
 ---
 
-<ol class="process" aria-label={label}>
+<ol class="process" aria-label={label} style={`--steps: ${steps.length}`}>
   {
     steps.map((step, index) => (
       <li class="process__step">

@@ -116,7 +116,7 @@ const copy = {
     <div class="container">
       <ul class="featured__grid">
         {
-          projects.map((project) => (
+          projects.filter((project) => project.featured !== false).map((project) => (
             <li>
               <ProjectCard project={project} />
             </li>
