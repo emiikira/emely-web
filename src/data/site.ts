@@ -75,15 +75,14 @@ export const projects: Project[] = [
   {
     slug: 'kuara',
     name: 'Kuara',
-    category: { es: 'Fintech · Sistema de diseño', en: 'Fintech · Design system' },
+    category: { es: 'Fintech · Pagos P2P', en: 'Fintech · P2P payments' },
     summary: {
-      es: 'Flujos y sistema de diseño para la plataforma web de pagos interbancarios de Kuara, en Panamá.',
-      en: 'Flows and design system for Kuara’s interbank payments web platform in Panama.',
+      es: 'Pagos P2P interbancarios con el número de celular: flujos, sistema de diseño y Storybook para cinco bancos de Panamá.',
+      en: 'Interbank P2P payments with a mobile number: flows, design system and Storybook for five banks in Panama.',
     },
     cover: homeKuara,
     portrait: portfolioKuara,
     focus: 'center top',
-    featured: false,
   },
   {
     slug: 'mercantil',

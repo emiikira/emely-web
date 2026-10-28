@@ -8,7 +8,7 @@ import { getLang } from '../../i18n';
 import { media } from '../../i18n/media';
 
 // Shared markup of the case study; the text comes from src/i18n/cases/kuara.ts.
-// Screens are exported from the KUARA Figma file (high-fidelity page).
+// Screens are exported from the KUARA Figma file (high-fidelity page of the merchant web platform).
 const lang = getLang(Astro.currentLocale);
 const c = content[lang];
 
@@ -16,7 +16,6 @@ const cover = media('kuara/cover.jpg', lang);
 const onboarding = media('kuara/onboarding.png', lang);
 const request = media('kuara/qr-solicitud.png', lang);
 const sent = media('kuara/qr-enviado.png', lang);
-const branch = media('kuara/sucursal-creada.png', lang);
 const dashboard = media('kuara/dashboard.png', lang);
 
 // Kuara's own variables, as defined in Figma (token names stay as in the file)
@@ -47,8 +46,9 @@ const components = [
 
 const sections = [
   { id: 'reto', title: c.sections.challenge },
-  { id: 'sistema', title: c.sections.system },
   { id: 'flujos', title: c.sections.flows },
+  { id: 'sistema', title: c.sections.system },
+  { id: 'storybook', title: c.sections.storybook },
   { id: 'impacto', title: c.sections.impact },
 ];
 const panel = c.system.panel;
@@ -85,7 +85,35 @@ const panel = c.system.panel;
     </ul>
   </CaseSection>
 
-  <CaseSection id="sistema" number={2} title={c.sections.system}>
+  <CaseSection id="flujos" number={2} title={c.sections.flows}>
+    <p>{c.flows.text}</p>
+    <ProcessSteps steps={c.flows.steps} label={c.sections.flows} />
+    <ul class="cards">
+      {
+        c.flows.cards.map((card) => (
+          <li class="card">
+            <h4>{card.title}</h4>
+            <Fragment set:html={card.text} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <h3>{c.flows.ecosystemTitle}</h3>
+    <p>{c.flows.ecosystemText}</p>
+    <figure class="screens">
+      <Image src={onboarding} alt={c.flows.alts.onboarding} widths={[880, 1728]} sizes="(max-width: 1024px) 92vw, 880px" />
+    </figure>
+    <div class="gallery screens" style="--cols: 2">
+      <Image src={request} alt={c.flows.alts.request} widths={[440, 880, 1512]} sizes="(max-width: 760px) 92vw, 440px" />
+      <Image src={sent} alt={c.flows.alts.sent} widths={[440, 880, 1512]} sizes="(max-width: 760px) 92vw, 440px" />
+    </div>
+    <figure class="screens">
+      <Image src={dashboard} alt={c.flows.alts.dashboard} widths={[880, 1512]} sizes="(max-width: 1024px) 92vw, 880px" />
+    </figure>
+  </CaseSection>
+
+  <CaseSection id="sistema" number={3} title={c.sections.system}>
     <p>{c.system.text}</p>
 
     <figure class="kds" aria-labelledby="kds-title">
@@ -153,35 +181,33 @@ const panel = c.system.panel;
     </ul>
   </CaseSection>
 
-  <CaseSection id="flujos" number={3} title={c.sections.flows}>
-    <p>{c.flows.text}</p>
-    <ProcessSteps steps={c.flows.steps} label={c.sections.flows} />
-
-    <h3>{c.flows.onboardingTitle}</h3>
-    <p>{c.flows.onboardingText}</p>
-    <figure class="screens">
-      <Image src={onboarding} alt={c.flows.alts.onboarding} widths={[880, 1728]} sizes="(max-width: 1024px) 92vw, 880px" />
-    </figure>
-
-    <h3>{c.flows.paymentsTitle}</h3>
-    <p>{c.flows.paymentsText}</p>
-    <div class="gallery screens" style="--cols: 2">
-      <Image src={request} alt={c.flows.alts.request} widths={[440, 880, 1512]} sizes="(max-width: 760px) 92vw, 440px" />
-      <Image src={sent} alt={c.flows.alts.sent} widths={[440, 880, 1512]} sizes="(max-width: 760px) 92vw, 440px" />
-    </div>
-
-    <h3>{c.flows.managementTitle}</h3>
-    <p>{c.flows.managementText}</p>
-    <figure class="screens">
-      <Image src={dashboard} alt={c.flows.alts.dashboard} widths={[880, 1512]} sizes="(max-width: 1024px) 92vw, 880px" />
-    </figure>
-    <figure class="screens">
-      <Image src={branch} alt={c.flows.alts.branch} widths={[880, 1512]} sizes="(max-width: 1024px) 92vw, 880px" />
-    </figure>
+  <CaseSection id="storybook" number={4} title={c.sections.storybook}>
+    <p set:html={c.storybook.text} />
+    <ProcessSteps steps={c.storybook.steps} label={c.sections.storybook} />
+    <ul class="cards">
+      {
+        c.storybook.cards.map((card) => (
+          <li class="card">
+            <h4>{card.title}</h4>
+            <Fragment set:html={card.text} />
+          </li>
+        ))
+      }
+    </ul>
   </CaseSection>
 
-  <CaseSection id="impacto" number={4} title={c.sections.impact}>
-    <p>{c.impact.text}</p>
+  <CaseSection id="impacto" number={5} title={c.sections.impact}>
+    <ul class="stats">
+      {
+        c.impact.stats.map((stat) => (
+          <li class="stat">
+            <span>{stat.label}</span>
+            <strong>{stat.value}</strong>
+            {stat.text}
+          </li>
+        ))
+      }
+    </ul>
     <ul class="cards">
       {
         c.impact.cards.map((card) => (
