@@ -8,7 +8,7 @@ const es = {
   tagline: 'Una app de citas médicas y control sanitario para dejar atrás las esperas al teléfono.',
   description:
     'Lidiar con largas listas de espera para conseguir una cita médica es desesperante cuando queremos cuidar nuestra salud. En este proyecto diseñé una aplicación para un centro médico con sedes en toda España: no solo para pedir citas, sino para que cada paciente lleve el control de su salud desde su móvil.',
-  brief: 'Diseñar una app para un centro médico en Madrid que sustituya las citas por teléfono.',
+  brief: 'Investigar el problema y presentar al centro una propuesta de app que sustituya las citas por teléfono.',
   details: [
     { label: 'Cliente', value: 'Centro médico privado' },
     { label: 'Rol', value: 'Diseñadora UX/UI' },
@@ -23,7 +23,7 @@ const es = {
     personas: 'User personas',
     flow: 'User flow',
     design: 'Wireframes y diseño',
-    next: 'Próximos pasos',
+    next: 'La propuesta',
   },
   challenge: {
     callout:
@@ -129,7 +129,7 @@ const es = {
     ],
   },
   design: {
-    text: 'Pasé el flujo a wireframes de baja fidelidad para validar la estructura antes de entrar en lo visual. El formulario de cita se despliega por pasos y sugiere el centro más cercano a la ubicación del paciente.',
+    text: 'Para presentar la propuesta pasé el flujo a wireframes de baja fidelidad, que muestran la estructura de la app antes de entrar en lo visual. El formulario de cita se despliega por pasos y sugiere el centro más cercano a la ubicación del paciente.',
     wireframesTitle: 'Wireframes',
     wireframes: [
       { file: 'wf-login', label: 'Inicio de sesión' },
@@ -139,19 +139,19 @@ const es = {
     ],
     visualTitle: 'Identidad visual',
     visualText:
-      'La interfaz parte de la identidad del centro: un turquesa sanitario, tranquilo y luminoso, y un logotipo que une una corona con la cruz médica. El inicio de sesión ya está en alta fidelidad.',
+      'La interfaz parte de la identidad del centro: un turquesa sanitario, tranquilo y luminoso, y un logotipo que une una corona con la cruz médica. Diseñé el inicio de sesión en alta fidelidad para que el centro viera cómo se sentiría su app.',
     loginAlt: 'Pantalla de inicio de sesión en alta fidelidad, con el logotipo del centro sobre fondo turquesa',
   },
   next: {
-    text: 'El proyecto sigue en construcción. Estos son los siguientes pasos:',
+    text: 'Este trabajo de discovery fue la base para presentar el proyecto al centro médico: la investigación, el insight, las personas y el flujo demostraban el problema y daban forma a la solución. La propuesta incluía una hoja de ruta para la siguiente fase:',
     cards: [
       {
-        title: 'Alta fidelidad',
-        text: 'Llevar el resto del flujo de cita a alta fidelidad con la identidad del centro.',
+        title: 'Validar con pacientes',
+        text: 'Probar el flujo de cita con pacientes como Lydia y Gema antes de invertir en el diseño visual.',
       },
       {
-        title: 'Test de usabilidad',
-        text: 'Probar el prototipo con pacientes como Lydia y Gema para validar el flujo de cita.',
+        title: 'Alta fidelidad',
+        text: 'Llevar el flujo completo a alta fidelidad con la identidad del centro.',
       },
       {
         title: 'Diario médico',
@@ -165,7 +165,7 @@ const en: typeof es = {
   tagline: 'A medical appointments and health tracking app to leave phone queues behind.',
   description:
     'Dealing with long waiting lists to get a medical appointment is frustrating when we want to look after our health. In this project I designed an app for a medical centre with branches across Spain: not just to book appointments, but so every patient can keep track of their health from their phone.',
-  brief: 'Design an app for a medical centre in Madrid to replace phone bookings.',
+  brief: 'Research the problem and pitch the centre an app that replaces phone bookings.',
   details: [
     { label: 'Client', value: 'Private medical centre' },
     { label: 'Role', value: 'UX/UI Designer' },
@@ -180,7 +180,7 @@ const en: typeof es = {
     personas: 'User personas',
     flow: 'User flow',
     design: 'Wireframes and design',
-    next: 'Next steps',
+    next: 'The pitch',
   },
   challenge: {
     callout:
@@ -286,7 +286,7 @@ const en: typeof es = {
     ],
   },
   design: {
-    text: 'I turned the flow into low-fidelity wireframes to validate the structure before the visual design. The booking form unfolds step by step and suggests the centre closest to the patient’s location.',
+    text: 'To present the proposal I turned the flow into low-fidelity wireframes, showing the app’s structure before the visual design. The booking form unfolds step by step and suggests the centre closest to the patient’s location.',
     wireframesTitle: 'Wireframes',
     wireframes: [
       { file: 'wf-login', label: 'Sign in' },
@@ -296,19 +296,19 @@ const en: typeof es = {
     ],
     visualTitle: 'Visual identity',
     visualText:
-      'The interface builds on the centre’s identity: a calm, bright healthcare turquoise and a logo that joins a crown with the medical cross. The sign-in screen is already in high fidelity.',
+      'The interface builds on the centre’s identity: a calm, bright healthcare turquoise and a logo that joins a crown with the medical cross. I designed the sign-in screen in high fidelity so the centre could see how its app would feel.',
     loginAlt: 'High-fidelity sign-in screen, with the centre’s logo on a turquoise background',
   },
   next: {
-    text: 'The project is still under construction. These are the next steps:',
+    text: 'This discovery work was the basis for pitching the project to the medical centre: the research, insight, personas and flow proved the problem and shaped the solution. The proposal included a roadmap for the next phase:',
     cards: [
       {
-        title: 'High fidelity',
-        text: 'Take the rest of the booking flow to high fidelity with the centre’s identity.',
+        title: 'Validate with patients',
+        text: 'Test the booking flow with patients like Lydia and Gema before investing in visual design.',
       },
       {
-        title: 'Usability testing',
-        text: 'Test the prototype with patients like Lydia and Gema to validate the booking flow.',
+        title: 'High fidelity',
+        text: 'Take the full flow to high fidelity with the centre’s identity.',
       },
       {
         title: 'Medical diary',

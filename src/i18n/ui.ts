@@ -51,6 +51,7 @@ const es = {
   'project.status.launched': 'Lanzado',
   'project.status.ongoing': 'En curso',
   'project.status.building': 'En construcción',
+  'project.status.pitch': 'Propuesta',
   'project.open': 'Abrir el caso de estudio de',
 
   'case.eyebrow': 'Caso de estudio',
@@ -124,6 +125,7 @@ const en = {
   'project.status.launched': 'Launched',
   'project.status.ongoing': 'In progress',
   'project.status.building': 'Under construction',
+  'project.status.pitch': 'Pitch',
   'project.open': 'Open the case study for',
 
   'case.eyebrow': 'Case study',

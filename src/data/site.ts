@@ -36,7 +36,11 @@ export const nav: { route: RouteKey; label: UiKey }[] = [
 ];
 
 /** Labels live in src/i18n/ui.ts, so they switch with the language. */
-export type ProjectStatus = 'project.status.launched' | 'project.status.ongoing' | 'project.status.building';
+export type ProjectStatus =
+  | 'project.status.launched'
+  | 'project.status.ongoing'
+  | 'project.status.building'
+  | 'project.status.pitch';
 
 export interface Project {
   slug: CaseSlug;
@@ -136,12 +140,12 @@ export const projects: Project[] = [
     name: 'Centro Médico IM',
     category: { es: 'App de salud', en: 'Health app' },
     summary: {
-      es: 'App de citas médicas y control sanitario para un centro médico en Madrid, de la investigación a los wireframes.',
-      en: 'Medical appointments and health tracking app for a medical centre in Madrid, from research to wireframes.',
+      es: 'Discovery y propuesta de una app de citas médicas y control sanitario para un centro médico en Madrid.',
+      en: 'Discovery and pitch for a medical appointments and health tracking app for a medical centre in Madrid.',
     },
     cover: homeCentroMedico,
     portrait: portfolioCentroMedico,
-    status: 'project.status.building',
+    status: 'project.status.pitch',
   },
 ];
 
