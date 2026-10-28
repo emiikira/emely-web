@@ -231,7 +231,7 @@ const sections = [
                       <tr>
                         <th scope="row">{row.name}</th>
                         {[row.light, row.dark].map((value, index) => (
-                          <td class:list={{ 'is-dark': index === 1 }} title={`#${value.hex}${value.opacity < 100 ? ` · ${value.opacity}%` : ''}`}>
+                          <td class:list={{ 'is-dark': index === 1 }} data-mode={index === 1 ? panel.labels.dark : panel.labels.light} title={`#${value.hex}${value.opacity < 100 ? ` · ${value.opacity}%` : ''}`}>
                             <span class="tokens__value">
                               <span class="tokens__swatch" style={`--swatch: ${value.css}`} aria-hidden="true" />
                               <span class="tokens__alias">
@@ -389,6 +389,7 @@ const sections = [
   .tokens__block {
     display: grid;
     gap: 10px;
+    min-width: 0;
   }
 
   .tokens .tokens__path,
@@ -521,6 +522,11 @@ const sections = [
     list-style: none;
   }
 
+  /* Anchor for the screen-reader-only hex values, so they never push the page wider */
+  .tokens :is(li, th, td) {
+    position: relative;
+  }
+
   .tokens__ramp li {
     display: grid;
     gap: 6px;
@@ -566,7 +572,7 @@ const sections = [
 
   /* Primitives: base table, ramps and groups flow into two columns when there is room */
   .tokens__card--prim {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
     align-items: start;
     gap: 22px 28px;
   }
@@ -575,60 +581,129 @@ const sections = [
     grid-column: 1 / -1;
   }
 
+  /* Phones: less nested padding, and each semantic token as a small card:
+     its name, then one full-width line per mode labelled Light / Dark */
   @media (max-width: 560px) {
-    .tokens__prefix {
-      display: block;
-      font-size: 11px;
-      white-space: normal;
+    .tokens {
+      padding: 20px 14px 14px;
+      border-radius: var(--radius-md);
     }
 
-    .tokens__value {
-      align-items: flex-start;
+    .tokens__head {
+      padding-inline: 4px;
     }
 
-    .tokens__value {
-      gap: 7px;
-      font-size: 12px;
+    .tokens__card {
+      gap: 16px;
+      padding: 18px 14px;
+      border-radius: 14px;
     }
 
-    /* Each token becomes a two-line row: its name, then Light and Dark side by side */
+    .tokens__card-head h4 {
+      flex-basis: 100%;
+    }
+
+    .tokens__text {
+      font-size: 14px;
+    }
+
+    .tokens__table :is(th, td) {
+      padding: 9px 10px;
+    }
+
+    .tokens__ramp {
+      gap: 2px;
+    }
+
+    .tokens__ramp-chip {
+      height: 30px;
+      border-radius: 4px;
+    }
+
+    .tokens__ramp-step {
+      font-size: 9.5px;
+      letter-spacing: -0.02em;
+    }
+
     .tokens__scroll {
       overflow: hidden;
     }
 
     .tokens__table--modes,
-    .tokens__table--modes :is(thead, tbody) {
+    .tokens__table--modes :is(tbody, tr, th, td) {
       display: block;
     }
 
-    .tokens__table--modes tr {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .tokens__table--modes thead th:first-child {
+    .tokens__table--modes thead {
       display: none;
     }
 
-    .tokens__table--modes :is(.tokens__group-row th, tbody th[scope='row']) {
-      grid-column: 1 / -1;
+    .tokens__table--modes tbody tr:not(.tokens__group-row) {
+      padding: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .tokens__table--modes tbody tr:not(.tokens__group-row) :is(th, td) {
       width: auto;
+      padding: 0;
+      border: 0;
     }
 
     .tokens__table--modes tbody th[scope='row'] {
-      padding-bottom: 4px;
+      margin-bottom: 8px;
     }
 
-    .tokens__table--modes tbody td {
-      border-top: 0;
+    .tokens__table--modes .tokens__group-row th {
+      width: auto;
     }
 
-    .tokens__ramp {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
+    /* Base table: the opacity badge drops under the hex when there is no room */
+    .tokens__block .tokens__value {
+      flex-wrap: wrap;
+      row-gap: 4px;
+      white-space: normal;
     }
 
-    .tokens__table :is(th, td) {
-      padding: 9px 8px;
+    .tokens__table--modes tbody tr:not(.tokens__group-row) td {
+      display: grid;
+      gap: 4px;
+      padding: 8px 10px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--surface);
+      font-size: 12px;
+    }
+
+    .tokens__table--modes tbody tr:not(.tokens__group-row) td + td {
+      margin-top: 4px;
+    }
+
+    .tokens__table--modes tbody tr:not(.tokens__group-row) td.is-dark {
+      background: var(--ink);
+    }
+
+    /* Mode label above each value, so the full alias (group and step) keeps the whole width */
+    .tokens__table--modes tbody td::before {
+      content: attr(data-mode);
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: var(--fw-medium);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tokens__table--modes tbody td.is-dark::before {
+      color: rgb(255 255 255 / 0.6);
+    }
+
+    .tokens__value {
+      min-width: 0;
+      gap: 8px;
+    }
+
+    .tokens__alias {
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
   }
 </style>
