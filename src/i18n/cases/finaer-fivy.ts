@@ -44,7 +44,7 @@ const es = {
       },
     ],
     toolsTitle: 'Herramientas y stack',
-    tools: ['Figma', 'Sistemas de diseño', 'UX Research', 'Integración UX con Equifax', 'Mixpanel', 'Firebase'],
+    tools: ['Figma', 'Sistemas de diseño', 'UX Research', 'Arquitectura de información', 'Mixpanel', 'Firebase'],
   },
   challenge: {
     callout:
@@ -79,7 +79,7 @@ const es = {
       },
       {
         title: 'Análisis de riesgo',
-        items: ['Cruce de datos y documentos', 'Motor de riesgo de Equifax'],
+        items: ['Cruce de datos y documentos', 'Semáforo de solvencia'],
       },
       {
         title: 'Resultado en ambos entornos',
@@ -89,11 +89,10 @@ const es = {
     diagram: {
       label: 'Flujo sincronizado entre la app de inquilinos y el backoffice de inmobiliarias',
       app: { title: 'App Fivy', subtitle: 'B2C · Inquilinos', actors: ['Solicitante', 'Co-inquilinos', 'Avalistas'] },
-      engine: { title: 'Equifax', subtitle: 'Motor de riesgo', items: ['Solvencia', 'Documentación', 'Historial'] },
+      engine: { title: 'Análisis de solvencia', subtitle: 'Semáforo de solvencia', items: ['Ingresos', 'Documentación', 'Participantes'] },
       b2b: { title: 'SAI · Fivy Pro', subtitle: 'B2B · Inmobiliarias', items: ['Propiedades', 'Solicitudes', 'Grupos'] },
       toEngine: 'Datos y documentos',
       toB2b: 'Evaluación',
-      request: 'La inmobiliaria abre la solicitud e invita a los participantes a la app',
       result: 'Mismo resultado en los dos entornos',
       resultItems: ['Semáforo', 'Máximo Garantizado', 'Entrega Adicional'],
     },
@@ -156,7 +155,7 @@ const es = {
     saiText:
       'El Sistema de Autogestión Inteligente es donde la inmobiliaria trabaja cada expediente: gestiona propiedades, solicitudes en borrador y grupos de candidatos (unidades familiares o pisos compartidos).',
     saiPoints: [
-      'Un <strong>semáforo de riesgo</strong> (bajo, medio y alto) basado en Equifax, para interpretar al instante la viabilidad del expediente.',
+      'Un <strong>semáforo de solvencia</strong> (bajo, medio y alto) para interpretar al instante la viabilidad del expediente.',
       'El <strong>Máximo Garantizado</strong> y la <strong>Entrega Adicional</strong> calculados junto al semáforo, para decidir sin hacer cuentas.',
     ],
     panel: {
@@ -170,7 +169,7 @@ const es = {
         { initials: 'DM', name: 'Diego M.', role: 'Co-inquilino', docs: 'Documentación completa' },
         { initials: 'CR', name: 'Carmen R.', role: 'Avalista', docs: 'Documentación completa' },
       ],
-      riskTitle: 'Riesgo Equifax',
+      riskTitle: 'Semáforo de solvencia',
       risk: { low: 'Bajo', medium: 'Medio', high: 'Alto' },
       riskActive: 'Riesgo bajo',
       maxTitle: 'Máximo Garantizado',
@@ -282,7 +281,7 @@ const en: typeof es = {
       },
     ],
     toolsTitle: 'Tools and stack',
-    tools: ['Figma', 'Design systems', 'UX Research', 'Equifax integration UX', 'Mixpanel', 'Firebase'],
+    tools: ['Figma', 'Design systems', 'UX Research', 'Information architecture', 'Mixpanel', 'Firebase'],
   },
   challenge: {
     callout:
@@ -317,7 +316,7 @@ const en: typeof es = {
       },
       {
         title: 'Risk assessment',
-        items: ['Data and documents cross-checked', 'Equifax risk engine'],
+        items: ['Data and documents cross-checked', 'Solvency traffic light'],
       },
       {
         title: 'Result in both environments',
@@ -327,11 +326,10 @@ const en: typeof es = {
     diagram: {
       label: 'Synchronised flow between the tenant app and the agency backoffice',
       app: { title: 'Fivy app', subtitle: 'B2C · Tenants', actors: ['Applicant', 'Co-tenants', 'Guarantors'] },
-      engine: { title: 'Equifax', subtitle: 'Risk engine', items: ['Solvency', 'Documents', 'History'] },
+      engine: { title: 'Solvency check', subtitle: 'Solvency traffic light', items: ['Income', 'Documents', 'Participants'] },
       b2b: { title: 'SAI · Fivy Pro', subtitle: 'B2B · Agencies', items: ['Properties', 'Applications', 'Groups'] },
       toEngine: 'Data and documents',
       toB2b: 'Assessment',
-      request: 'The agency opens the application and invites participants to the app',
       result: 'Same result in both environments',
       resultItems: ['Traffic light', 'Maximum Guaranteed', 'Additional Deposit'],
     },
@@ -394,7 +392,7 @@ const en: typeof es = {
     saiText:
       'The Smart Self-Management System is where the agency works on each file: it manages properties, draft applications and applicant groups (families or shared flats).',
     saiPoints: [
-      'A <strong>risk traffic light</strong> (low, medium and high) based on Equifax, so the agent understands a file’s viability at a glance.',
+      'A <strong>solvency traffic light</strong> (low, medium and high), so the agent understands a file’s viability at a glance.',
       'The <strong>Maximum Guaranteed</strong> and <strong>Additional Deposit</strong> shown next to the traffic light, to decide without doing the maths.',
     ],
     panel: {
@@ -408,7 +406,7 @@ const en: typeof es = {
         { initials: 'DM', name: 'Diego M.', role: 'Co-tenant', docs: 'Documents complete' },
         { initials: 'CR', name: 'Carmen R.', role: 'Guarantor', docs: 'Documents complete' },
       ],
-      riskTitle: 'Equifax risk',
+      riskTitle: 'Solvency traffic light',
       risk: { low: 'Low', medium: 'Medium', high: 'High' },
       riskActive: 'Low risk',
       maxTitle: 'Maximum Guaranteed',

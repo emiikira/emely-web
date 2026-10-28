@@ -9,8 +9,8 @@ import { getLang } from '../../i18n';
 import { media } from '../../i18n/media';
 
 // Shared markup of the case study; the text comes from src/i18n/cases/finaer-fivy.ts.
-// The B2B backoffice is under NDA, so the ecosystem diagram, the assessment panel and the component
-// sheet are built in HTML/CSS with illustrative data. App screens (Fini/Fivy) live in finaer-fivy/screens/
+// The B2B backoffice is under NDA, so the ecosystem diagram, the assessment panel and the onboarding
+// branching are built in HTML/CSS with illustrative data. App screens (Fini/Fivy) live in finaer-fivy/screens/
 // and are listed automatically, in file-name order.
 const lang = getLang(Astro.currentLocale);
 const c = content[lang];
@@ -112,8 +112,8 @@ const sections = [
         </div>
 
         <div class="glass-card sync__node sync__node--engine">
-          <span class="sync__badge">API</span>
-          <h4 translate="no">{d.engine.title}</h4>
+          <span class="sync__badge sync__badge--light" aria-hidden="true"><i></i><i></i><i></i></span>
+          <h4>{d.engine.title}</h4>
           <p class="sync__sub">{d.engine.subtitle}</p>
           <ul class="sync__list">
             {d.engine.items.map((item) => <li>{item}</li>)}
@@ -133,8 +133,6 @@ const sections = [
           </ul>
         </div>
       </div>
-
-      <p class="sync__return"><span aria-hidden="true">↺</span> {d.request}</p>
 
       <div class="sync__result">
         <strong>{d.result}</strong>
@@ -269,7 +267,7 @@ const sections = [
           </section>
 
           <section class="eval__risk" aria-label={p.riskTitle}>
-            <h5 translate="no">{p.riskTitle}</h5>
+            <h5>{p.riskTitle}</h5>
             <div class="light" role="img" aria-label={p.riskActive}>
               <span class="light__dot light__dot--low is-on">{p.risk.low}</span>
               <span class="light__dot light__dot--mid">{p.risk.medium}</span>
@@ -304,66 +302,16 @@ const sections = [
   <CaseSection id="sistema" number={6} title={c.sections.system}>
     <p>{c.system.text}</p>
 
-    <!-- 3b. Design system components, recreated -->
-    <figure class="board" aria-label={c.system.label}>
-      <div class="ds">
-        <section class="glass-card ds__item ds__item--wide">
-          <h4>{ds.progress.title}</h4>
-          <p>{ds.progress.text}</p>
-          <ol class="progress" aria-label={ds.progress.title}>
-            {
-              ds.progress.steps.map((step, index) => (
-                <li class:list={{ 'is-done': index < 2, 'is-current': index === 2 }}>
-                  <span class="progress__bar" aria-hidden="true" />
-                  <span>{step}</span>
-                </li>
-              ))
-            }
-          </ol>
-        </section>
-
-        <section class="glass-card ds__item">
-          <h4>{ds.buttons.title}</h4>
-          <p>{ds.buttons.text}</p>
-          <div class="ds__buttons" aria-hidden="true">
-            <span class="dsb dsb--primary">{ds.buttons.primary}</span>
-            <span class="dsb dsb--secondary">{ds.buttons.secondary}</span>
-            <span class="dsb dsb--ghost">{ds.buttons.ghost}</span>
-            <span class="dsb dsb--disabled">{ds.buttons.disabled}</span>
-          </div>
-        </section>
-
-        <section class="glass-card ds__item">
-          <h4>{ds.headers.title}</h4>
-          <p>{ds.headers.text}</p>
-          <div class="ds__headers" aria-hidden="true">
-            <div class="hdr hdr--mobile"><span>‹</span><strong>{ds.headers.mobile}</strong><span>⋯</span></div>
-            <div class="hdr hdr--web">
-              <span class="hdr__logo" translate="no">fivy</span><strong>{ds.headers.web}</strong><span class="hdr__avatar" />
-            </div>
-          </div>
-        </section>
-
-        <section class="glass-card ds__item ds__item--wide ds__sheet-item">
-          <div>
-            <h4>{ds.sheet.title}</h4>
-            <p>{ds.sheet.text}</p>
-          </div>
-          <div class="mini-phone" aria-hidden="true">
-            <div class="mini-phone__screen">
-              <span class="mini-phone__line" />
-              <span class="mini-phone__line mini-phone__line--short" />
-              <span class="mini-phone__line" />
-              <div class="sheet">
-                <span class="sheet__grip" />
-                <strong>{ds.sheet.heading}</strong>
-                {ds.sheet.options.map((option) => <span class="sheet__option">{option}</span>)}
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </figure>
+    <ul class="cards ds-cards">
+      {
+        [ds.progress, ds.buttons, ds.headers, ds.sheet].map((item) => (
+          <li class="card">
+            <h4>{item.title}</h4>
+            {item.text}
+          </li>
+        ))
+      }
+    </ul>
   </CaseSection>
 
   <CaseSection id="impacto" number={7} title={c.sections.impact}>
@@ -465,6 +413,33 @@ const sections = [
     letter-spacing: 0.08em;
   }
 
+  /* Mini solvency traffic light in the central node */
+  .sync__badge--light {
+    display: inline-flex;
+    gap: 5px;
+    padding: 5px 9px;
+  }
+
+  .sync__badge--light i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #2fd27a;
+  }
+
+  .sync__badge--light i:nth-child(2) {
+    background: #ffc93c;
+  }
+
+  .sync__badge--light i:nth-child(3) {
+    background: #ff5a5f;
+  }
+
+  /* Four components in a 2x2 grid */
+  ul.cards.ds-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .sync__node h4 {
     margin-top: 4px;
     font-size: 19px;
@@ -537,15 +512,6 @@ const sections = [
     line-height: 1.2;
     text-align: center;
     opacity: 0.9;
-  }
-
-  .sync__return {
-    justify-self: center;
-    text-align: center;
-    padding: 6px 14px;
-    border: 1px dashed rgb(255 255 255 / 0.5);
-    border-radius: 999px;
-    font-size: 13px;
   }
 
   .sync__result {
@@ -917,233 +883,6 @@ const sections = [
     opacity: 0.7;
   }
 
-  /* 3b. Design system sheet */
-  .ds {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .ds__item {
-    display: grid;
-    align-content: start;
-    gap: 8px;
-    padding: 20px;
-  }
-
-  .ds__item--wide {
-    grid-column: 1 / -1;
-  }
-
-  .ds__item h4 {
-    font-size: 16px;
-    font-weight: var(--fw-semibold);
-  }
-
-  .ds__item > p,
-  .ds__item > div > p {
-    font-size: 13px;
-    opacity: 0.85;
-  }
-
-  .progress {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
-    margin-top: 8px;
-    padding: 0;
-    list-style: none;
-    font-size: 12px;
-  }
-
-  .progress li {
-    display: grid;
-    gap: 6px;
-    opacity: 0.6;
-  }
-
-  .progress__bar {
-    height: 6px;
-    border-radius: 999px;
-    background: rgb(255 255 255 / 0.25);
-  }
-
-  .progress li.is-done,
-  .progress li.is-current {
-    opacity: 1;
-  }
-
-  .progress li.is-done .progress__bar {
-    background: var(--white);
-  }
-
-  .progress li.is-current .progress__bar {
-    background: linear-gradient(90deg, var(--white) 55%, rgb(255 255 255 / 0.25) 55%);
-  }
-
-  .progress li.is-current span:last-child {
-    font-weight: var(--fw-semibold);
-  }
-
-  .ds__buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
-  }
-
-  .dsb {
-    padding: 9px 16px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: var(--fw-semibold);
-  }
-
-  .dsb--primary {
-    background: var(--white);
-    color: var(--purple);
-  }
-
-  .dsb--secondary {
-    border: 1.5px solid var(--white);
-  }
-
-  .dsb--ghost {
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .dsb--disabled {
-    background: rgb(255 255 255 / 0.18);
-    color: rgb(255 255 255 / 0.55);
-  }
-
-  .ds__headers {
-    display: grid;
-    gap: 8px;
-    margin-top: 6px;
-  }
-
-  .hdr {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: var(--white);
-    color: var(--ink);
-    font-size: 13px;
-  }
-
-  .hdr strong {
-    color: var(--ink);
-  }
-
-  .hdr--mobile {
-    max-width: 220px;
-  }
-
-  .hdr--web {
-    justify-content: flex-start;
-  }
-
-  .hdr__logo {
-    margin-right: 12px;
-    color: var(--purple);
-    font-weight: var(--fw-bold);
-  }
-
-  .hdr__avatar {
-    width: 22px;
-    height: 22px;
-    margin-left: auto;
-    border-radius: 50%;
-    background: var(--brand-gradient);
-  }
-
-  .ds__sheet-item {
-    grid-template-columns: minmax(0, 1fr) 190px;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .mini-phone {
-    padding: 6px;
-    border-radius: 26px;
-    background: #121214;
-  }
-
-  .mini-phone__screen {
-    position: relative;
-    display: grid;
-    align-content: start;
-    gap: 8px;
-    height: 230px;
-    overflow: hidden;
-    padding: 22px 14px;
-    border-radius: 20px;
-    background: var(--surface);
-  }
-
-  .mini-phone__line {
-    height: 10px;
-    border-radius: 999px;
-    background: var(--line);
-  }
-
-  .mini-phone__line--short {
-    width: 60%;
-  }
-
-  .mini-phone__screen::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgb(22 22 22 / 0.35);
-  }
-
-  .sheet {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    display: grid;
-    gap: 8px;
-    padding: 10px 14px 16px;
-    border-radius: 16px 16px 0 0;
-    background: var(--white);
-    color: var(--ink);
-    font-size: 12px;
-  }
-
-  .sheet strong {
-    color: var(--ink);
-    font-size: 13px;
-  }
-
-  .sheet__grip {
-    justify-self: center;
-    width: 34px;
-    height: 4px;
-    border-radius: 999px;
-    background: var(--line);
-  }
-
-  .sheet__option {
-    padding: 8px 10px;
-    border: 1px solid var(--panel-line);
-    border-radius: 8px;
-  }
-
-  .sheet__option:first-of-type {
-    border-color: var(--purple);
-    background: var(--purple-06);
-    color: var(--purple);
-    font-weight: var(--fw-semibold);
-  }
-
   @media (max-width: 900px) {
     .sync__row {
       grid-template-columns: minmax(0, 1fr);
@@ -1190,8 +929,8 @@ const sections = [
   }
 
   @media (max-width: 760px) {
-    .branch__paths,
-    .ds {
+    ul.cards.ds-cards,
+    .branch__paths {
       grid-template-columns: minmax(0, 1fr);
     }
 
@@ -1215,17 +954,5 @@ const sections = [
       grid-template-columns: minmax(0, 1fr);
     }
 
-    .ds__sheet-item {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .mini-phone {
-      justify-self: center;
-      width: 190px;
-    }
-
-    .progress {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 </style>
