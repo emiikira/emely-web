@@ -17,13 +17,16 @@ const es = {
     { label: 'Tipo', value: 'Sistema de diseño' },
   ],
   sections: {
-    challenge: 'Contexto y reto',
+    challenge: 'El reto',
     method: 'Metodología end-to-end',
     solution: 'La solución: Compass',
     impact: 'Resultados e impacto',
     next: 'Próximos pasos',
   },
   challenge: {
+    // Highlighted card that opens the section, as in the other case studies
+    callout:
+      'Cerrar la brecha entre el diseño en Figma y la ingeniería frontend de una startup en pleno crecimiento: un sistema único y coherente que acelerara el time-to-market sin frenar la evolución del producto.',
     text: 'En PinsXP, los usuarios guardan sus lugares favoritos, crean itinerarios de viaje o planes y comparten momentos en grupo con sus amigos. La startup crecía a gran velocidad y eso abría una <strong>brecha cada vez mayor entre el equipo de diseño en Figma y los ingenieros de frontend</strong>, que ralentizaba el time-to-market.',
     alts: [
       'Pantallas de PinsXP antes del sistema de diseño',
@@ -161,13 +164,15 @@ const en: typeof es = {
     { label: 'Type', value: 'Design system' },
   ],
   sections: {
-    challenge: 'Context and challenge',
+    challenge: 'The challenge',
     method: 'End-to-end methodology',
     solution: 'The solution: Compass',
     impact: 'Results and impact',
     next: 'Next steps',
   },
   challenge: {
+    callout:
+      'Closing the gap between design in Figma and frontend engineering at a fast-growing startup: one consistent system that would speed up time-to-market without holding the product back.',
     text: 'On PinsXP, people save their favourite places, build travel itineraries or plans, and share moments with groups of friends. The startup was growing fast, and that opened a <strong>widening gap between the design team in Figma and the frontend engineers</strong> that slowed down time-to-market.',
     alts: [
       'PinsXP screens before the design system',
