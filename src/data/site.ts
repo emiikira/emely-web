@@ -3,13 +3,13 @@ import type { CaseSlug, Localized, RouteKey } from '../i18n';
 import type { UiKey } from '../i18n/ui';
 
 import homePinsxp from '../assets/projects/home/pinsxp.jpg';
-import homeIn99 from '../assets/projects/home/in99.png';
-import homeMercantil from '../assets/projects/home/mercantil.png';
-import homeCrudebeauty from '../assets/projects/home/crudebeauty.jpg';
+import homeIn99 from '../assets/projects/in99/cover.jpg';
+import homeMercantil from '../assets/projects/mercantil/cover.jpg';
+import homeCrudebeauty from '../assets/projects/crudebeauty/cover.jpg';
 import portfolioPinsxp from '../assets/projects/portfolio/pinsxp.jpg';
-import portfolioIn99 from '../assets/projects/portfolio/in99.jpg';
-import portfolioMercantil from '../assets/projects/portfolio/mercantil.jpg';
-import portfolioCrudebeauty from '../assets/projects/portfolio/crudebeauty.jpg';
+import portfolioIn99 from '../assets/projects/in99/portrait.jpg';
+import portfolioMercantil from '../assets/projects/mercantil/portrait.jpg';
+import portfolioCrudebeauty from '../assets/projects/crudebeauty/portrait.jpg';
 import portfolioCentroMedico from '../assets/projects/portfolio/centro-medico-is.jpg';
 import portfolioNuva from '../assets/projects/portfolio/nuva.jpg';
 import homeKuara from '../assets/projects/kuara/cover.jpg';
@@ -105,7 +105,6 @@ export const projects: Project[] = [
     },
     cover: homeCrudebeauty,
     portrait: portfolioCrudebeauty,
-    focus: '52% center',
   },
   {
     slug: 'in99',
@@ -117,7 +116,6 @@ export const projects: Project[] = [
     },
     cover: homeIn99,
     portrait: portfolioIn99,
-    focus: '68% center',
   },
 ];
 
