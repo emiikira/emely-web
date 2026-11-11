@@ -117,6 +117,7 @@ for name, (label, text) in FILES.items():
             r = fitz.Rect(r.x0, r.y0 + delta, r.x1, r.y1 + delta)
         new.insert_link({**link, 'from': r})
     out.set_metadata(src.metadata)
-    out.save(path + '.tmp', garbage=3, deflate=True)
+    out.subset_fonts()  # keeps only the glyphs used: ~60 KB instead of ~280 KB
+    out.save(path + '.tmp', garbage=4, deflate=True, deflate_fonts=True, clean=True)
     os.replace(path + '.tmp', path)
     print(name, len(lines), 'lines, shift', delta)
