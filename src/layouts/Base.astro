@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
@@ -9,16 +11,21 @@ interface Props {
   title?: string;
   description?: string;
   headerVariant?: 'overlay' | 'solid';
+  /** Image shown when the page is shared; defaults to the general card in public/og-default.jpg. */
+  image?: ImageMetadata;
 }
 
 const lang = getLang(Astro.currentLocale);
 const t = useTranslations(lang);
-const { title, description = t('site.description'), headerVariant = 'solid' } = Astro.props;
+const { title, description = t('site.description'), headerVariant = 'solid', image } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : t('site.title');
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
 // Only real translations are announced to search engines; fallbacks are just switcher shortcuts.
 const alternates = getAlternates(Astro.url.pathname).filter((alternate) => alternate.translated);
 const absolute = (href: string) => (Astro.site ? new URL(href, Astro.site).href : href);
+// Social card (1200x630): the case's own cover on project pages, the general card elsewhere
+const shareImage = image ? await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 85 }) : undefined;
+const imageUrl = absolute(shareImage ? shareImage.src : '/og-default.jpg');
 ---
 
 <!doctype html>
@@ -38,9 +45,18 @@ const absolute = (href: string) => (Astro.site ? new URL(href, Astro.site).href 
     <link rel="icon" href="/favicon.png" type="image/png" />
     <meta name="theme-color" content="#6600bf" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content={t('site.ogLocale')} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

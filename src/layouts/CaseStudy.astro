@@ -30,7 +30,7 @@ const index = projects.findIndex((project) => project.slug === slug);
 const next = projects[(index + 1) % projects.length];
 ---
 
-<Base title={`${name}, ${t('case.titleSuffix')}`} description={`${tagline} ${description}`}>
+<Base title={`${name}, ${t('case.titleSuffix')}`} description={`${tagline} ${description}`} image={cover}>
   <header class="case-hero brand-surface">
     <div class="brand-surface__tint" aria-hidden="true"></div>
     <div class="case-hero__shape" aria-hidden="true"></div>

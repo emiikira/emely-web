@@ -19,6 +19,6 @@ export default defineConfig({
       config: { webp: { quality: 90, smartSubsample: true, effort: 6 } },
     },
   },
-  // Production URL, used for canonical links. Change it when the site gets its own domain.
-  site: 'https://endearing-pasca-3b9ea3.netlify.app',
+  // Production URL, used for canonical links and the absolute URLs of the social-sharing tags.
+  site: 'https://emelyaponte.com',
 });
