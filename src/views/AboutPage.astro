@@ -202,6 +202,11 @@ const content = {
         description:
           'Piezas gráficas, contenido publicitario y animaciones digitales para clientes de banca, telecomunicaciones y alimentación.',
       },
+      {
+        period: 'jun. 2015 – dic. 2016',
+        role: 'Junior Graphic Designer (pasantía)',
+        description: 'Mi primera experiencia laboral: diseño de newsletters, banners y piezas de branding para comunicación digital e impresa.',
+      },
     ],
   },
   en: {
@@ -388,6 +393,11 @@ const content = {
         description:
           'Graphic pieces, advertising content and digital animations for banking, telecommunications and food clients.',
       },
+      {
+        period: 'Jun 2015 – Dec 2016',
+        role: 'Junior Graphic Designer (internship)',
+        description: 'My first job: newsletters, banners and branding pieces for digital and print communication.',
+      },
     ],
   },
 }[lang];
@@ -404,6 +414,7 @@ const jobs: { company: string; current?: boolean; caseStudy?: RouteKey }[] = [
   { company: 'Wikot' },
   { company: 'Seis Grados Media' },
   { company: 'La Web Mercadeo Interactivo' },
+  { company: 'Topitop' },
 ];
 const experience = jobs.map((job, index) => ({ ...job, ...content.experience[index] }));
 const { story, approach, services, stack, ai, beyond } = content;
