@@ -74,7 +74,7 @@ const copy = {
         }
       </dl>
       <div class="actions intro__actions">
-        <a class="btn" href={lang === 'es' ? site.cvEs : site.cvHome} target="_blank" rel="noopener noreferrer">
+        <a class="btn" href={site.cv[lang]} target="_blank" rel="noopener noreferrer">
           {t('common.cv')} <ArrowIcon />
           <span class="visually-hidden">{t('common.newTab')}</span>
         </a>

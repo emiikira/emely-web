@@ -370,7 +370,7 @@ const { story, approach, services, stack, ai, beyond } = content;
       </ul>
 
       <div class="actions story__actions">
-        <a class="btn" href={lang === 'es' ? site.cvEs : site.cvAbout} target="_blank" rel="noopener noreferrer">
+        <a class="btn" href={site.cv[lang]} target="_blank" rel="noopener noreferrer">
           {t('common.cv')} <ArrowIcon />
           <span class="visually-hidden">{t('common.newTab')}</span>
         </a>
