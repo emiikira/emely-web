@@ -2,7 +2,8 @@
 #  - the headline under the name becomes "Senior Product & UX/UI Designer";
 #  - the "previous experience" paragraph names the three companies;
 #  - the degree line is worded the way it is read in Spain ("Técnico Superior en Diseño Gráfico");
-#  - Darien Technology is now called Darient.
+#  - Darien Technology is now called Darient;
+#  - the opening line of the About paragraph uses the same title as the headline.
 # The CVs are single A4 pages: the top is kept, the paragraph is rewritten, and what is below is moved down.
 # It must run on the ORIGINAL PDFs:  git checkout fc47bf7 -- public/cv && python3 scripts/cv-patch.py
 # (run from the repo root; needs `pip install pymupdf`)
@@ -35,6 +36,21 @@ DEGREE = {
     'CV_Emely_Aponte_EN.pdf': ('Higher Technician in Graphic Design', ' · UNEXPO, Venezuela (2013 – 2016)'),
 }
 PURPLE = (0x66 / 255, 0, 0xBF / 255)
+ABOUT = {  # (text, bold) runs of the first paragraph
+    'CV_Emely_Aponte_Tovar.pdf': [
+        ('Senior Product & UX/UI Designer con ', False),
+        ('más de 10 años en diseño, 9 de ellos en UX/UI y producto digital', True),
+        ('. Especializada en sistemas de diseño escalables, ecosistemas B2B + B2C en fintech y proptech, y flujos de diseño '
+         'asistidos por IA (Claude Code + Figma MCP).', False),
+    ],
+    'CV_Emely_Aponte_EN.pdf': [
+        ('Senior Product & UX/UI Designer with ', False),
+        ('over 10 years in design, 9 of them in UX/UI and digital product', True),
+        ('. Specialized in scalable design systems, B2B + B2C ecosystems in fintech and proptech, and AI-assisted design '
+         'workflows (Claude Code + Figma MCP).', False),
+    ],
+}
+ABOUT_Y = 144.8  # baseline of the first line; the next ones follow every LEAD
 
 bold = fitz.Font(fontfile=FONTS + 'Poppins-Bold.ttf')
 regular = fitz.Font(fontfile=FONTS + 'Poppins-Regular.ttf')
@@ -82,6 +98,7 @@ for name, (label, text) in FILES.items():
                     page.add_redact_annot(fitz.Rect(sp['bbox']), fill=(1, 1, 1))
                     renamed.append((sp['origin'], sp['font'].split('+')[-1], sp['size'], sp['color'], t.replace('Darien Technology', 'Darient')))
     page.add_redact_annot(fitz.Rect(40, 62, 260, 80), fill=(1, 1, 1))
+    page.add_redact_annot(fitz.Rect(40, 134, 556, 172), fill=(1, 1, 1))
     page.add_redact_annot(fitz.Rect(40, 743, 300, 758), fill=(1, 1, 1))
     page.apply_redactions()
 
@@ -107,6 +124,39 @@ for name, (label, text) in FILES.items():
     new.insert_text((x, 753.8 + delta), deg_bold, fontname='pb', fontsize=SIZE, color=BOLD_COLOR)
     x += bold.text_length(deg_bold, SIZE)
     new.insert_text((x, 753.8 + delta), deg_text, fontname='pr', fontsize=SIZE, color=TEXT_COLOR)
+    # About paragraph: greedy wrap of runs, a word may mix bold and regular text (e.g. "digital.")
+    flags = [bold_flag for text, bold_flag in ABOUT[name] for _ in text]
+    full = ''.join(text for text, _ in ABOUT[name])
+    words, start = [], 0
+    for word in full.split(' '):
+        words.append([(full[start + k], flags[start + k]) for k in range(len(word))])
+        start += len(word) + 1
+
+    def run_width(word):
+        return sum((bold if b else regular).text_length(c, SIZE) for c, b in word)
+
+    about_lines, cur, w_cur = [], [], 0.0
+    space = regular.text_length(' ', SIZE)
+    for word in words:
+        w = run_width(word)
+        if cur and w_cur + space + w > X1 - X0:
+            about_lines.append(cur)
+            cur, w_cur = [], 0.0
+        w_cur += (space if cur else 0) + w
+        cur.append(word)
+    about_lines.append(cur)
+    for n, line in enumerate(about_lines):
+        x, y = X0, ABOUT_Y + n * LEAD
+        for word in line:
+            run, run_bold = '', word[0][1]
+            for c, b in word + [('', None)]:
+                if b != run_bold:
+                    new.insert_text((x, y), run, fontname='pb' if run_bold else 'pr', fontsize=SIZE,
+                                    color=BOLD_COLOR if run_bold else TEXT_COLOR)
+                    x += (bold if run_bold else regular).text_length(run, SIZE)
+                    run, run_bold = '', b
+                run += c
+            x += space
     for i, (origin, font, size, color, text) in enumerate(renamed):
         new.insert_font(fontname=f'rn{i}', fontfile=FONTS + font + '.ttf')
         new.insert_text(origin, text, fontname=f'rn{i}', fontsize=size,
