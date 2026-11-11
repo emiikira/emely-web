@@ -12,7 +12,7 @@ const es = {
   details: [
     { label: 'Cliente', value: 'PinsXP (startup estadounidense)' },
     { label: 'Rol', value: 'Lead Product Designer' },
-    { label: 'Empresa', value: 'Darien Technology' },
+    { label: 'Empresa', value: 'Darient' },
     { label: 'Ubicación', value: 'Madrid, España' },
     { label: 'Tipo', value: 'Sistema de diseño' },
   ],
@@ -159,7 +159,7 @@ const en: typeof es = {
   details: [
     { label: 'Client', value: 'PinsXP (US startup)' },
     { label: 'Role', value: 'Lead Product Designer' },
-    { label: 'Company', value: 'Darien Technology' },
+    { label: 'Company', value: 'Darient' },
     { label: 'Location', value: 'Madrid, Spain' },
     { label: 'Type', value: 'Design system' },
   ],

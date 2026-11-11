@@ -1,7 +1,8 @@
 # One-off patch of both CV PDFs, whose HTML source is not in the repo (text taken from LinkedIn):
 #  - the headline under the name becomes "Senior Product & UX/UI Designer";
 #  - the "previous experience" paragraph names the three companies;
-#  - the degree line says "Diseño Gráfico (TSU)" instead of "Artes Gráficas".
+#  - the degree line is worded the way it is read in Spain ("Técnico Superior en Diseño Gráfico");
+#  - Darien Technology is now called Darient.
 # The CVs are single A4 pages: the top is kept, the paragraph is rewritten, and what is below is moved down.
 # It must run on the ORIGINAL PDFs:  git checkout fc47bf7 -- public/cv && python3 scripts/cv-patch.py
 # (run from the repo root; needs `pip install pymupdf`)
@@ -30,8 +31,8 @@ FILES = {
 
 HEADLINE = 'SENIOR PRODUCT & UX/UI DESIGNER'
 DEGREE = {
-    'CV_Emely_Aponte_Tovar.pdf': ('Diseño Gráfico', ' · Técnico Superior Universitario (TSU) · UNEXPO, Venezuela (2013 – 2016)'),
-    'CV_Emely_Aponte_EN.pdf': ('Graphic Design', ' · Higher University Technician degree (TSU) · UNEXPO, Venezuela (2013 – 2016)'),
+    'CV_Emely_Aponte_Tovar.pdf': ('Técnico Superior en Diseño Gráfico', ' · UNEXPO, Venezuela (2013 – 2016)'),
+    'CV_Emely_Aponte_EN.pdf': ('Higher Technician in Graphic Design', ' · UNEXPO, Venezuela (2013 – 2016)'),
 }
 PURPLE = (0x66 / 255, 0, 0xBF / 255)
 
@@ -71,6 +72,15 @@ for name, (label, text) in FILES.items():
     chars = head['chars']
     # Letter-spacing of the headline = distance between glyph origins minus the glyph's own advance
     tracking = (chars[1]['origin'][0] - chars[0]['origin'][0]) - bold.text_length(chars[0]['c'], head['size'])
+    # Spans that mention the company's old name are redacted and written again with the new one
+    renamed = []
+    for b in page.get_text('rawdict')['blocks']:
+        for l in b.get('lines', []):
+            for sp in l['spans']:
+                t = ''.join(c['c'] for c in sp['chars'])
+                if 'Darien Technology' in t:
+                    page.add_redact_annot(fitz.Rect(sp['bbox']), fill=(1, 1, 1))
+                    renamed.append((sp['origin'], sp['font'].split('+')[-1], sp['size'], sp['color'], t.replace('Darien Technology', 'Darient')))
     page.add_redact_annot(fitz.Rect(40, 62, 260, 80), fill=(1, 1, 1))
     page.add_redact_annot(fitz.Rect(40, 743, 300, 758), fill=(1, 1, 1))
     page.apply_redactions()
@@ -97,6 +107,10 @@ for name, (label, text) in FILES.items():
     new.insert_text((x, 753.8 + delta), deg_bold, fontname='pb', fontsize=SIZE, color=BOLD_COLOR)
     x += bold.text_length(deg_bold, SIZE)
     new.insert_text((x, 753.8 + delta), deg_text, fontname='pr', fontsize=SIZE, color=TEXT_COLOR)
+    for i, (origin, font, size, color, text) in enumerate(renamed):
+        new.insert_font(fontname=f'rn{i}', fontfile=FONTS + font + '.ttf')
+        new.insert_text(origin, text, fontname=f'rn{i}', fontsize=size,
+                        color=((color >> 16) / 255, ((color >> 8) & 255) / 255, (color & 255) / 255))
     for link in page.get_links():
         r = link['from']
         if r.y0 > BOTTOM_CUT:
