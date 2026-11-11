@@ -147,7 +147,7 @@ const content = {
         period: 'may. 2026 – actualidad',
         role: 'Senior Product Designer',
         description:
-          'Conceptualización, arquitectura y escalado de Compass, el sistema de diseño de PinsXP (app social para el mercado de EE. UU.), con flujos asistidos por IA para la tokenización, la coherencia visual y el handoff con ingeniería.',
+          'Conceptualización, arquitectura y escalado de Compass, el sistema de diseño de PinsXP (app social de lugares y momentos para el mercado de EE. UU.), con flujos asistidos por IA para la tokenización, la coherencia visual y el handoff con ingeniería.',
       },
       {
         period: 'nov. 2024 – mar. 2026',
@@ -178,24 +178,29 @@ const content = {
         role: 'Freelance Product Designer',
         company: 'Profesional independiente',
         description:
-          'Proyectos de producto digital y diseño web para clientes de distintos sectores, como Kuara: pagos P2P interbancarios para cinco bancos de Panamá, con sistema de diseño multimarca y documentación en Storybook.',
+          'Proyectos de producto digital para clientes de fintech y otros sectores, en paralelo a los puestos en plantilla, como Kuara: pagos P2P interbancarios para cinco bancos de Panamá, con sistema de diseño multimarca y documentación en Storybook.',
       },
       {
         period: 'ene. 2019 – ene. 2020',
         role: 'Diseñadora UX/UI y gráfica',
-        description: 'Sitios web y piezas digitales orientadas a conversión para marcas como Viñedos Veramonte y Escape60.',
+        description: 'Sitios web responsivos y piezas digitales orientadas a conversión para campañas de growth marketing, para marcas como Viñedos Veramonte y Escape60.',
       },
       {
         period: 'nov. 2017 – ene. 2019',
         role: 'Diseñadora UX/UI',
         description:
-          'Wireframes, arquitectura de información y prototipos interactivos para productos digitales. Mi paso del diseño gráfico al producto digital.',
+          'Wireframes, arquitectura de información y prototipos interactivos para productos digitales en equipos multidisciplinares. Mi paso del diseño gráfico al producto digital.',
       },
       {
-        period: '2015 – 2017',
-        role: 'Diseñadora gráfica digital',
-        company: 'Agencias de Caracas',
-        description: 'Campañas y piezas digitales para marcas como L’Oréal Professionnel y Ron Roble Viejo.',
+        period: 'dic. 2016 – nov. 2017',
+        role: 'Senior Digital Graphic Designer',
+        description: 'Campañas digitales y contenido para redes sociales de marcas como L’Oréal Professionnel y Ron Roble Viejo.',
+      },
+      {
+        period: 'feb. 2016 – feb. 2017',
+        role: 'Junior Digital Graphic Designer',
+        description:
+          'Piezas gráficas, contenido publicitario y animaciones digitales para clientes de banca, telecomunicaciones y alimentación.',
       },
     ],
   },
@@ -328,7 +333,7 @@ const content = {
         period: 'May 2026 – present',
         role: 'Senior Product Designer',
         description:
-          'Concept, architecture and scaling of Compass, the PinsXP design system (a social app for the US market), with AI-assisted workflows for tokenisation, visual consistency and engineering handoff.',
+          'Concept, architecture and scaling of Compass, the PinsXP design system (a social app of places and moments for the US market), with AI-assisted workflows for tokenisation, visual consistency and engineering handoff.',
       },
       {
         period: 'Nov 2024 – Mar 2026',
@@ -359,24 +364,29 @@ const content = {
         role: 'Freelance Product Designer',
         company: 'Independent',
         description:
-          'Digital product and web design for clients across sectors, such as Kuara: interbank P2P payments for five Panamanian banks, with a multi-brand design system documented in Storybook.',
+          'Digital product projects for fintech and other clients, alongside in-house roles, such as Kuara: interbank P2P payments for five Panamanian banks, with a multi-brand design system documented in Storybook.',
       },
       {
         period: 'Jan 2019 – Jan 2020',
         role: 'UX/UI & Graphic Designer',
-        description: 'Conversion-focused websites and digital pieces for brands such as Viñedos Veramonte and Escape60.',
+        description: 'Responsive websites and conversion-focused digital pieces for growth marketing campaigns, for brands such as Viñedos Veramonte and Escape60.',
       },
       {
         period: 'Nov 2017 – Jan 2019',
         role: 'UX/UI Designer',
         description:
-          'Wireframes, information architecture and interactive prototypes for digital products. My move from graphic design into digital product.',
+          'Wireframes, information architecture and interactive prototypes for digital products in multidisciplinary teams. My move from graphic design into digital product.',
       },
       {
-        period: '2015 – 2017',
-        role: 'Digital Graphic Designer',
-        company: 'Caracas agencies',
-        description: 'Campaigns and digital pieces for brands such as L’Oréal Professionnel and Ron Roble Viejo.',
+        period: 'Dec 2016 – Nov 2017',
+        role: 'Senior Digital Graphic Designer',
+        description: 'Digital campaigns and social media content for brands such as L’Oréal Professionnel and Ron Roble Viejo.',
+      },
+      {
+        period: 'Feb 2016 – Feb 2017',
+        role: 'Junior Digital Graphic Designer',
+        description:
+          'Graphic pieces, advertising content and digital animations for banking, telecommunications and food clients.',
       },
     ],
   },
@@ -392,7 +402,8 @@ const jobs: { company: string; current?: boolean; caseStudy?: RouteKey }[] = [
   { company: 'Freelance', caseStudy: 'case-kuara' },
   { company: 'Lookers Inbound' },
   { company: 'Wikot' },
-  { company: '' },
+  { company: 'Seis Grados Media' },
+  { company: 'La Web Mercadeo Interactivo' },
 ];
 const experience = jobs.map((job, index) => ({ ...job, ...content.experience[index] }));
 const { story, approach, services, stack, ai, beyond } = content;
