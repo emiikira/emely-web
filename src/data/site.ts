@@ -21,7 +21,9 @@ import portfolioKuara from '../assets/projects/kuara/portrait.jpg';
 // Language-independent facts. Titles, descriptions and labels live in src/i18n/ui.ts.
 export const site = {
   name: 'Emely Aponte',
-  // The Framer site links two CV files: one from the home page, one from "Acerca de mí".
+  // Spanish CV, served from public/cv/ (replace the file to update it). Used on the Spanish home and "Sobre mí".
+  cvEs: '/cv/CV_Emely_Aponte_Tovar.pdf',
+  // English pages still link the CV files from the Framer site: one from the home page, one from "About".
   cvHome: 'https://drive.google.com/file/d/1UstvP3TviDANhi7TG-Btqu81VbkWWR1_/view?usp=sharing',
   cvAbout: 'https://drive.google.com/file/d/1mfQPhDmBcE3dlHyk5-rFMhvECJi-pxbM/view?usp=sharing',
   linkedin: 'https://www.linkedin.com/in/emiikira/',
